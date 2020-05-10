@@ -4,6 +4,7 @@
 
 #********************************************************************************************************
 
+
 from PyQt5 import QtGui
 
 from PyQt5.QtCore import Qt
@@ -140,6 +141,13 @@ class WidgetGallery(QDialog):
 
 #********************************************************************************************************
 
+    def putControllerMsg(self,text):
+
+        self.incoming.append(text)
+        self.incoming.moveCursor(QtGui.QTextCursor.End)
+
+#********************************************************************************************************
+
     def sendControllerMsg(self,message,text):
 
         self.outgoing.append(text)
@@ -147,7 +155,7 @@ class WidgetGallery(QDialog):
 
 #********************************************************************************************************
 
-    def updatePID(self):
+    def __updatePID(self):
 
         self.sendControllerMsg(MSG_SEND_PID,"Send PID Data")
         print(self.proportional," ",self.integral, " ", self.derivitive, " ",self.gain)
@@ -179,7 +187,7 @@ class WidgetGallery(QDialog):
         gainButton.clicked.connect(self.showGainDialog)
 
         PIDButton = QPushButton('Update', self)
-        PIDButton.clicked.connect(self.updatePID)
+        PIDButton.clicked.connect(self.__updatePID)
                                                                                         
         layout = QVBoxLayout()
 
@@ -395,26 +403,13 @@ class WidgetGallery(QDialog):
 
         self.incomingGroupBox = QGroupBox("Incoming Messages")
 
-        incoming = QTextEdit()
-
-        incoming.setPlainText( "Pendulum Period(ms): 1500\n"
-                               "Pendulum Period(ms): 1510\n"
-                               "Pendulum Period(ms): 1515\n"
-                               "Pendulum Period(ms): 1511\n"
-                               "Pendulum Period(ms): 1513\n"
-                               "Pendulum Period(ms): 1517\n"
-                               "Pendulum Period(ms): 1520\n"
-                               "Pendulum Period(ms): 1523\n"
-                               "Pendulum Period(ms): 1519\n"
-                               "Pendulum Period(ms): 1518\n"
-                             )
+        self.incoming = QTextEdit()
 
         layout = QVBoxLayout()
 
-        layout.addWidget(incoming)
+        layout.addWidget(self.incoming)
 
         self.incomingGroupBox.setLayout(layout)    
-
 
 
 #***************************************************************************************
@@ -437,9 +432,14 @@ class WidgetGallery(QDialog):
 if __name__ == '__main__':
 
     import sys
+    import asyncio
+
 
     app = QApplication(sys.argv)
-    gallery = WidgetGallery()
-    gallery.show()
+    gui = WidgetGallery()
+
+    gui.show()
+    gui.putControllerMsg("Controller message")
+
     sys.exit(app.exec_()) 
 
