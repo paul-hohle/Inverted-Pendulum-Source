@@ -141,12 +141,14 @@ class WidgetGallery(QDialog):
 #********************************************************************************************************
 
     def sendControllerMsg(self,message,text):
+
         self.outgoing.append(text)
         self.outgoing.moveCursor(QtGui.QTextCursor.End)
 
 #********************************************************************************************************
 
     def updatePID(self):
+
         self.sendControllerMsg(MSG_SEND_PID,"Send PID Data")
         print(self.proportional," ",self.integral, " ", self.derivitive, " ",self.gain)
 
@@ -154,6 +156,7 @@ class WidgetGallery(QDialog):
 #********************************************************************************************************
 
     def __changeStyle(self, styleName):
+
         QApplication.setStyle(QStyleFactory.create(styleName))
 
 #********************************************************************************************************
@@ -357,28 +360,33 @@ class WidgetGallery(QDialog):
 #***************************************************************************************
 
     def jogLeftHandler(self):
+
        self.sendControllerMsg(MSG_MANUAL_CONTROL_JOG_LEFT,"Jog Left")
 
 
 #***************************************************************************************
 
     def jogRightHandler(self):
+
        self.sendControllerMsg(MSG_MANUAL_CONTROL_JOG_RIGHT,"Jog Right")
 
 #***************************************************************************************
 
     def leftHomeHandler(self):
+
        self.sendControllerMsg(MSG_MANUAL_CONTROL_LEFT_HOME,"Left Home")
 
 
 #***************************************************************************************
 
     def centerHomeHandler(self):
+
        self.sendControllerMsg(MSG_MANUAL_CONTROL_CENTER_HOME,"Center Home")
 
 #***************************************************************************************
 
     def rightHomeHandler(self):
+
        self.sendControllerMsg(MSG_MANUAL_CONTROL_RIGHT_HOME,"Right Home")
 
 #***************************************************************************************
