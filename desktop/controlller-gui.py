@@ -141,7 +141,7 @@ class WidgetGallery(QDialog):
 
 #********************************************************************************************************
 
-    def putControllerMsg(self,text):
+    def putIncomingMsg(self,text):
 
         self.incoming.append(text)
         self.incoming.moveCursor(QtGui.QTextCursor.End)
@@ -439,7 +439,7 @@ if __name__ == '__main__':
     gui = WidgetGallery()
 
     gui.show()
-    gui.putControllerMsg("Controller message")
+    gui.putIncomingMsg("Incoming controller message")
 
     sys.exit(app.exec_()) 
 
