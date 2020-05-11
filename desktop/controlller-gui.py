@@ -148,7 +148,7 @@ class WidgetGallery(QDialog):
 
 #********************************************************************************************************
 
-    def sendControllerMsg(self,message,text):
+    def __sendControllerMsg(self,message,text):
 
         self.outgoing.append(text)
         self.outgoing.moveCursor(QtGui.QTextCursor.End)
@@ -157,7 +157,7 @@ class WidgetGallery(QDialog):
 
     def __updatePID(self):
 
-        self.sendControllerMsg(MSG_SEND_PID,"Send PID Data")
+        self.__sendControllerMsg(MSG_SEND_PID,"Send PID Data")
         print(self.proportional," ",self.integral, " ", self.derivitive, " ",self.gain)
 
 
@@ -193,9 +193,9 @@ class WidgetGallery(QDialog):
 
         layout.addWidget(proportionalButton)
         layout.addWidget(integralButton)
+        layout.addWidget(derivitiveButton)
         layout.addWidget(gainButton)
         layout.addWidget(PIDButton)
-        layout.addWidget(derivitiveButton)
  
         layout.addStretch(1)
 
@@ -206,26 +206,26 @@ class WidgetGallery(QDialog):
     def showGainDialog(self):
 
         print ("*",self.gain)
-        self.gain, ok = QInputDialog.getDouble(self, 'Gain', '')
+        self.gain, ok = QInputDialog.getDouble(self, 'Gain', '',self.gain)
         print (self.gain)
 
 #********************************************************************************************************
 
     def showProportionalDialog(self):
 
-        self.proportional, ok = QInputDialog.getDouble(self, 'Proportional', '')
+        self.proportional, ok = QInputDialog.getDouble(self, 'Proportional', '',self.proportional)
 
 #********************************************************************************************************
 
     def showIntegralDialog(self):
 
-         self.integral, ok = QInputDialog.getDouble(self, 'Integral', '')
+         self.integral, ok = QInputDialog.getDouble(self, 'Integral', '',self.integral)
 
 #********************************************************************************************************
 
     def showDerivitiveDialog(self):
 
-         self.derivitive, ok = QInputDialog.getDouble(self, 'Derivitive', '')
+         self.derivitive, ok = QInputDialog.getDouble(self, 'Derivitive', '',self.derivitive)
          print (self.derivitive)
 
 #********************************************************************************************************
@@ -287,29 +287,29 @@ class WidgetGallery(QDialog):
 
         if radio.isChecked():
            if radio.text() == "Idle":
-              self.sendControllerMsg(MSG_SET_IDLE_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_IDLE_MODE,radio.text())
            elif radio.text() == "Manual":
-              self.sendControllerMsg(MSG_SET_MANUAL_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_MANUAL_MODE,radio.text())
            elif radio.text() == "PID Controller":
-              self.sendControllerMsg(MSG_SET_PID_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_PID_MODE,radio.text())
            elif radio.text() == "State Space Controller":
-              self.sendControllerMsg(MSG_SET_STATE_SPACE_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_STATE_SPACE_MODE,radio.text())
            elif radio.text() == "Ad Hoc Controller":
-              self.sendControllerMsg(MSG_SET_AD_HOC_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_AD_HOC_MODE,radio.text())
            elif radio.text() == "AI Controller":
-              self.sendControllerMsg(MSG_SET_AI_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_AI_MODE,radio.text())
            elif radio.text() == "Pendulum Period Test":
-              self.sendControllerMsg(MSG_SET_PENDULUM_PERIOD_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_PENDULUM_PERIOD_MODE,radio.text())
            elif radio.text() == "Pendulum Length Test":
-              self.sendControllerMsg(MSG_SET_PENDULUM_LENGTH_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_PENDULUM_LENGTH_MODE,radio.text())
            elif radio.text() == "Rail Length Test":
-              self.sendControllerMsg(MSG_SET_RAIL_LENGTH_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_RAIL_LENGTH_MODE,radio.text())
            elif radio.text() == "Rail Center Test":
-              self.sendControllerMsg(MSG_SET_RAIL_CENTER_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_RAIL_CENTER_MODE,radio.text())
            elif radio.text() == "Windup Test":
-              self.sendControllerMsg(MSG_SET_WINDUP_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_WINDUP_MODE,radio.text())
            elif radio.text() == "Communications Test":
-              self.sendControllerMsg(MSG_SET_COMM_TEST_MODE,radio.text())
+              self.__sendControllerMsg(MSG_SET_COMM_TEST_MODE,radio.text())
            else:
               print("Undefined mode message: " + radio.text())
  
@@ -363,39 +363,39 @@ class WidgetGallery(QDialog):
     def showStepDialog(self):
 
          self.step, ok = QInputDialog.getDouble(self, 'Jog Size', '')
-         self.sendControllerMsg(MSG_MANUAL_CONTROL_JOG_SIZE,"Update Jog Size")
+         self.__sendControllerMsg(MSG_MANUAL_CONTROL_JOG_SIZE,"Update Jog Size")
 
 #***************************************************************************************
 
     def jogLeftHandler(self):
 
-       self.sendControllerMsg(MSG_MANUAL_CONTROL_JOG_LEFT,"Jog Left")
+       self.__sendControllerMsg(MSG_MANUAL_CONTROL_JOG_LEFT,"Jog Left")
 
 
 #***************************************************************************************
 
     def jogRightHandler(self):
 
-       self.sendControllerMsg(MSG_MANUAL_CONTROL_JOG_RIGHT,"Jog Right")
+       self.__sendControllerMsg(MSG_MANUAL_CONTROL_JOG_RIGHT,"Jog Right")
 
 #***************************************************************************************
 
     def leftHomeHandler(self):
 
-       self.sendControllerMsg(MSG_MANUAL_CONTROL_LEFT_HOME,"Left Home")
+       self.__sendControllerMsg(MSG_MANUAL_CONTROL_LEFT_HOME,"Left Home")
 
 
 #***************************************************************************************
 
     def centerHomeHandler(self):
 
-       self.sendControllerMsg(MSG_MANUAL_CONTROL_CENTER_HOME,"Center Home")
+       self.__sendControllerMsg(MSG_MANUAL_CONTROL_CENTER_HOME,"Center Home")
 
 #***************************************************************************************
 
     def rightHomeHandler(self):
 
-       self.sendControllerMsg(MSG_MANUAL_CONTROL_RIGHT_HOME,"Right Home")
+       self.__sendControllerMsg(MSG_MANUAL_CONTROL_RIGHT_HOME,"Right Home")
 
 #***************************************************************************************
 
