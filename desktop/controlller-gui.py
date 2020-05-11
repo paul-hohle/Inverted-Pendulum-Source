@@ -87,6 +87,12 @@ messages = { 'Idle'                   : MSG_SET_IDLE_MODE,
              'PID Controller'         : MSG_SET_PID_MODE,
              'State Space Controller' : MSG_SET_STATE_SPACE_MODE,
              'Ad Hoc Controller'      : MSG_SET_AD_HOC_MODE,
+             'AI Controller'          : MSG_SET_AI_MODE,
+             'Pendulum Period Test'   : MSG_SET_PENDULUM_PERIOD_MODE,
+             'Pendulum Length Test'   : MSG_SET_PENDULUM_LENGTH_MODE,
+             'Rail Length Test'       : MSG_SET_RAIL_LENGTH_MODE,
+             'Rail Center Test'       : MSG_SET_RAIL_CENTER_MODE,
+             'Windup Test'            : MSG_SET_WINDUP_MODE,
            }
 
 #********************************************************************************************************
