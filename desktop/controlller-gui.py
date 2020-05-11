@@ -70,6 +70,20 @@ MSG_SET_RAIL_CENTER_MODE     = MSG_SET_MODE_BASE+9
 MSG_SET_WINDUP_MODE          = MSG_SET_MODE_BASE+10
 MSG_SET_COMM_TEST_MODE       = MSG_SET_MODE_BASE+11
 
+mode_messages = { 'Idle'                   : MSG_SET_IDLE_MODE,
+                  'Manual'                 : MSG_SET_MANUAL_MODE,
+                  'PID Controller'         : MSG_SET_PID_MODE,
+                  'State Space Controller' : MSG_SET_STATE_SPACE_MODE,
+                  'Ad Hoc Controller'      : MSG_SET_AD_HOC_MODE,
+                  'AI Controller'          : MSG_SET_AI_MODE,
+                  'Pendulum Period Test'   : MSG_SET_PENDULUM_PERIOD_MODE,
+                  'Pendulum Length Test'   : MSG_SET_PENDULUM_LENGTH_MODE,
+                  'Rail Length Test'       : MSG_SET_RAIL_LENGTH_MODE,
+                  'Rail Center Test'       : MSG_SET_RAIL_CENTER_MODE,
+                  'Windup Test'            : MSG_SET_WINDUP_MODE,
+                  'Communications Test'    : MSG_SET_COMM_TEST_MODE     
+                }
+
 #------------------------- Manual Control Messages ----------------------
 
 MSG_MANUAL_CONTROL_BASE = 0x3000
@@ -82,19 +96,6 @@ MSG_MANUAL_CONTROL_RIGHT_HOME  = MSG_MANUAL_CONTROL_BASE+4
 MSG_MANUAL_CONTROL_JOG_SIZE    = MSG_MANUAL_CONTROL_BASE+5
 
 
-messages = { 'Idle'                   : MSG_SET_IDLE_MODE,
-             'Manual'                 : MSG_SET_MANUAL_MODE,
-             'PID Controller'         : MSG_SET_PID_MODE,
-             'State Space Controller' : MSG_SET_STATE_SPACE_MODE,
-             'Ad Hoc Controller'      : MSG_SET_AD_HOC_MODE,
-             'AI Controller'          : MSG_SET_AI_MODE,
-             'Pendulum Period Test'   : MSG_SET_PENDULUM_PERIOD_MODE,
-             'Pendulum Length Test'   : MSG_SET_PENDULUM_LENGTH_MODE,
-             'Rail Length Test'       : MSG_SET_RAIL_LENGTH_MODE,
-             'Rail Center Test'       : MSG_SET_RAIL_CENTER_MODE,
-             'Windup Test'            : MSG_SET_WINDUP_MODE,
-             'Communications Test'    : MSG_SET_COMM_TEST_MODE     
-           }
 
 #********************************************************************************************************
 
@@ -219,28 +220,37 @@ class WidgetGallery(QDialog):
 
     def showGainDialog(self):
 
-        print ("*",self.gain)
-        self.gain, ok = QInputDialog.getDouble(self, 'Gain', '',self.gain)
-        print (self.gain)
+        gain, ok = QInputDialog.getDouble(self, 'Gain', '',self.gain)
+
+        if ok == True:
+           self.gain = gain
 
 #********************************************************************************************************
 
     def showProportionalDialog(self):
 
-        self.proportional, ok = QInputDialog.getDouble(self, 'Proportional', '',self.proportional)
+        proportional, ok = QInputDialog.getDouble(self, 'Proportional', '',self.proportional)
+
+        if ok == True:
+           self.proportional = proportional
 
 #********************************************************************************************************
 
     def showIntegralDialog(self):
 
-         self.integral, ok = QInputDialog.getDouble(self, 'Integral', '',self.integral)
+         integral, ok = QInputDialog.getDouble(self, 'Integral', '',self.integral)
+
+         if ok == True:
+            self.integral = integral
 
 #********************************************************************************************************
 
     def showDerivitiveDialog(self):
 
          self.derivitive, ok = QInputDialog.getDouble(self, 'Derivitive', '',self.derivitive)
-         print (self.derivitive)
+
+         if ok == True:
+             self.derivitive = derivitive
 
 #********************************************************************************************************
 
@@ -302,7 +312,7 @@ class WidgetGallery(QDialog):
 
         if radio.isChecked():
 
-           command = messages.get(radio.text())
+           command = mode_messages.get(radio.text())
 
            if command != None:
               self.__sendControllerMsg(command,radio.text())
@@ -338,8 +348,8 @@ class WidgetGallery(QDialog):
         rightHomePushButton.toggled.connect(lambda:self.rightHomeHandler())
         centerHomePushButton.toggled.connect(lambda:self.centerHomeHandler())
                                                                                         
-        stepButton = QPushButton('Edit Jog Size', self)
-        stepButton.clicked.connect(self.showStepDialog)
+        jogSizeButton = QPushButton('Edit Jog Size', self)
+        jogSizeButton.clicked.connect(self.showJogSizeDialog)
 
         layout = QVBoxLayout()
 
@@ -348,7 +358,7 @@ class WidgetGallery(QDialog):
         layout.addWidget(rightHomePushButton)
         layout.addWidget(jogLeftPushButton)
         layout.addWidget(jogRightPushButton)
-        layout.addWidget(stepButton)
+        layout.addWidget(jogSizeButton)
 
         layout.addStretch(1)
 
@@ -356,9 +366,9 @@ class WidgetGallery(QDialog):
 
 #********************************************************************************************************
 
-    def showStepDialog(self):
+    def showJogSizeDialog(self):
 
-         self.step, ok = QInputDialog.getDouble(self, 'Jog Size', '')
+         self.jog, ok = QInputDialog.getDouble(self, 'Jog Size', '',self.jog)
          self.__sendControllerMsg(MSG_MANUAL_CONTROL_JOG_SIZE,"Update Jog Size")
 
 #***************************************************************************************
