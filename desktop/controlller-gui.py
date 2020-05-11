@@ -82,6 +82,13 @@ MSG_MANUAL_CONTROL_RIGHT_HOME  = MSG_MANUAL_CONTROL_BASE+4
 MSG_MANUAL_CONTROL_JOG_SIZE    = MSG_MANUAL_CONTROL_BASE+5
 
 
+messages = { 'Idle'                   : MSG_SET_IDLE_MODE,
+             'Manual'                 : MSG_SET_MANUAL_MODE,
+             'PID Controller'         : MSG_SET_PID_MODE,
+             'State Space Controller' : MSG_SET_STATE_SPACE_MODE,
+             'Ad Hoc Controller'      : MSG_SET_AD_HOC_MODE,
+           }
+
 #********************************************************************************************************
 
 
@@ -137,7 +144,6 @@ class WidgetGallery(QDialog):
         self.integral     = 3.0
         self.derivitive   = 4.0
         self.jog          = 2.0
-
 
 #********************************************************************************************************
 
@@ -434,8 +440,8 @@ if __name__ == '__main__':
     import sys
     import asyncio
 
-
     app = QApplication(sys.argv)
+
     gui = WidgetGallery()
 
     gui.show()
