@@ -93,6 +93,7 @@ messages = { 'Idle'                   : MSG_SET_IDLE_MODE,
              'Rail Length Test'       : MSG_SET_RAIL_LENGTH_MODE,
              'Rail Center Test'       : MSG_SET_RAIL_CENTER_MODE,
              'Windup Test'            : MSG_SET_WINDUP_MODE,
+             'Communications Test'    : MSG_SET_COMM_TEST_MODE     
            }
 
 #********************************************************************************************************
@@ -150,6 +151,7 @@ class WidgetGallery(QDialog):
         self.integral     = 3.0
         self.derivitive   = 4.0
         self.jog          = 2.0
+
 
 #********************************************************************************************************
 
@@ -297,33 +299,15 @@ class WidgetGallery(QDialog):
 
     def modeRadioButtonHandler(self,radio):
 
+
         if radio.isChecked():
-           if radio.text() == "Idle":
-              self.__sendControllerMsg(MSG_SET_IDLE_MODE,radio.text())
-           elif radio.text() == "Manual":
-              self.__sendControllerMsg(MSG_SET_MANUAL_MODE,radio.text())
-           elif radio.text() == "PID Controller":
-              self.__sendControllerMsg(MSG_SET_PID_MODE,radio.text())
-           elif radio.text() == "State Space Controller":
-              self.__sendControllerMsg(MSG_SET_STATE_SPACE_MODE,radio.text())
-           elif radio.text() == "Ad Hoc Controller":
-              self.__sendControllerMsg(MSG_SET_AD_HOC_MODE,radio.text())
-           elif radio.text() == "AI Controller":
-              self.__sendControllerMsg(MSG_SET_AI_MODE,radio.text())
-           elif radio.text() == "Pendulum Period Test":
-              self.__sendControllerMsg(MSG_SET_PENDULUM_PERIOD_MODE,radio.text())
-           elif radio.text() == "Pendulum Length Test":
-              self.__sendControllerMsg(MSG_SET_PENDULUM_LENGTH_MODE,radio.text())
-           elif radio.text() == "Rail Length Test":
-              self.__sendControllerMsg(MSG_SET_RAIL_LENGTH_MODE,radio.text())
-           elif radio.text() == "Rail Center Test":
-              self.__sendControllerMsg(MSG_SET_RAIL_CENTER_MODE,radio.text())
-           elif radio.text() == "Windup Test":
-              self.__sendControllerMsg(MSG_SET_WINDUP_MODE,radio.text())
-           elif radio.text() == "Communications Test":
-              self.__sendControllerMsg(MSG_SET_COMM_TEST_MODE,radio.text())
-           else:
-              print("Undefined mode message: " + radio.text())
+
+           command = messages.get(radio.text())
+
+           if command != None:
+              self.__sendControllerMsg(command,radio.text())
+           else: 
+              print("Undefined mode message string: " + radio.text())
  
            
 
