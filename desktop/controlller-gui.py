@@ -217,37 +217,37 @@ class WidgetGallery(QDialog):
 
     def showGainDialog(self):
 
-        scratch, ok = QInputDialog.getDouble(self, 'Gain', '',self.gain)
+        scratchpad, ok = QInputDialog.getDouble(self, 'Gain', '',self.gain)
 
         if ok == True:
-           self.gain = scratch
+           self.gain = scratchpad
 
 #********************************************************************************************************
 
     def showProportionalDialog(self):
 
-       scratch, ok = QInputDialog.getDouble(self, 'Proportional', '',self.proportional)
+       scratchpad, ok = QInputDialog.getDouble(self, 'Proportional', '',self.proportional)
 
        if ok == True:
-           self.proportional = scratch
+           self.proportional = scratchpad
 
 #********************************************************************************************************
 
     def showIntegralDialog(self):
 
-         scratch, ok = QInputDialog.getDouble(self, 'Integral', '',self.integral)
+         scratchpad, ok = QInputDialog.getDouble(self, 'Integral', '',self.integral)
 
          if ok == True:
-            self.integral = scratch
+            self.integral = scratchpad
 
 #********************************************************************************************************
 
     def showDerivitiveDialog(self):
 
-         scratch, ok = QInputDialog.getDouble(self, 'Derivitive', '',self.derivitive)
+         scratchpad, ok = QInputDialog.getDouble(self, 'Derivitive', '',self.derivitive)
 
          if ok == True:
-             self.derivitive = scratch
+             self.derivitive = scratchpad
 
 #********************************************************************************************************
 
