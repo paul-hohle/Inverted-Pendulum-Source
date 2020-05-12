@@ -6,9 +6,13 @@
 
 from PyQt5 import QtGui
 
+#********************************************************************************************************
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtCore import QDateTime
 from PyQt5.QtCore import QTimer
+
+#********************************************************************************************************
 
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtWidgets import QDialog
@@ -35,6 +39,10 @@ from PyQt5.QtWidgets import QRadioButton
 from PyQt5.QtWidgets import QScrollBar
 from PyQt5.QtWidgets import QSizePolicy
 from PyQt5.QtWidgets import QInputDialog
+
+#********************************************************************************************************
+
+import msgpack
 
 #********************************************************************************************************
 
@@ -158,20 +166,44 @@ class WidgetGallery(QDialog):
         self.incoming.append(text)
         self.incoming.moveCursor(QtGui.QTextCursor.End)
 
+
 #********************************************************************************************************
 
-    def __sendControllerMsg(self,message,text):
+    def __sendControllerMsg(self,message,text,arg1=None,arg2=None,arg3=None,arg4=None):
+
+        dummy = 0.0
 
         self.outgoing.append(text)
         self.outgoing.moveCursor(QtGui.QTextCursor.End)
+
+        if arg1 == None:
+           packet = [message,dummy,dummy,dummy,dummy]
+           print (packet)
+           print ("TX(1) : ",packet)
+
+        elif arg1 != None and arg2 == None:
+           packet = [message,arg1,dummy,dummy,dummy]
+           print ("TX(2) : ",packet)
+
+        elif arg1 != None and arg2 != None and arg3 == None:
+           packet = [message,arg1,arg2,dummy,dummy]
+           print ("TX(3) : ",packet)
+
+        else:
+           packet = [message,arg1,arg2,arg3,arg4]
+           print ("TX(4) : ",packet)
+
+        tx = msgpack.packb(packet)
+        rx = msgpack.unpackb(tx)
+
+
+        print ("RX    : ",rx)
 
 #********************************************************************************************************
 
     def __updatePID(self):
 
-        self.__sendControllerMsg(MSG_SEND_PID,"Send PID Data")
-        print(self.proportional," ",self.integral, " ", self.derivitive, " ",self.gain)
-
+        self.__sendControllerMsg(MSG_SEND_PID,"Send PID Data",self.proportional,self.integral, self.derivitive, self.gain)
 
 #********************************************************************************************************
 
@@ -366,7 +398,7 @@ class WidgetGallery(QDialog):
     def showJogSizeDialog(self):
 
          self.jog, ok = QInputDialog.getDouble(self, 'Jog Size', '',self.jog)
-         self.__sendControllerMsg(MSG_MANUAL_CONTROL_JOG_SIZE,"Update Jog Size")
+         self.__sendControllerMsg(MSG_MANUAL_CONTROL_JOG_SIZE,"Update Jog Size",self.jog)
 
 #***************************************************************************************
 
@@ -429,7 +461,9 @@ class WidgetGallery(QDialog):
 
         self.outgoingGroupBox.setLayout(layout)
 
-#***************************************************************************************
+
+
+    #***************************************************************************************
 
 
 if __name__ == '__main__':
@@ -445,4 +479,5 @@ if __name__ == '__main__':
     gui.putIncomingMsg("Incoming controller message")
 
     sys.exit(app.exec_()) 
+
 
