@@ -4,7 +4,6 @@
 
 #********************************************************************************************************
 
-
 from PyQt5 import QtGui
 
 from PyQt5.QtCore import Qt
@@ -94,8 +93,6 @@ MSG_MANUAL_CONTROL_LEFT_HOME   = MSG_MANUAL_CONTROL_BASE+2
 MSG_MANUAL_CONTROL_CENTER_HOME = MSG_MANUAL_CONTROL_BASE+3
 MSG_MANUAL_CONTROL_RIGHT_HOME  = MSG_MANUAL_CONTROL_BASE+4
 MSG_MANUAL_CONTROL_JOG_SIZE    = MSG_MANUAL_CONTROL_BASE+5
-
-
 
 #********************************************************************************************************
 
@@ -220,37 +217,37 @@ class WidgetGallery(QDialog):
 
     def showGainDialog(self):
 
-        gain, ok = QInputDialog.getDouble(self, 'Gain', '',self.gain)
+        scratch, ok = QInputDialog.getDouble(self, 'Gain', '',self.gain)
 
         if ok == True:
-           self.gain = gain
+           self.gain = scratch
 
 #********************************************************************************************************
 
     def showProportionalDialog(self):
 
-        proportional, ok = QInputDialog.getDouble(self, 'Proportional', '',self.proportional)
+       scratch, ok = QInputDialog.getDouble(self, 'Proportional', '',self.proportional)
 
-        if ok == True:
-           self.proportional = proportional
+       if ok == True:
+           self.proportional = scratch
 
 #********************************************************************************************************
 
     def showIntegralDialog(self):
 
-         integral, ok = QInputDialog.getDouble(self, 'Integral', '',self.integral)
+         scratch, ok = QInputDialog.getDouble(self, 'Integral', '',self.integral)
 
          if ok == True:
-            self.integral = integral
+            self.integral = scratch
 
 #********************************************************************************************************
 
     def showDerivitiveDialog(self):
 
-         self.derivitive, ok = QInputDialog.getDouble(self, 'Derivitive', '',self.derivitive)
+         scratch, ok = QInputDialog.getDouble(self, 'Derivitive', '',self.derivitive)
 
          if ok == True:
-             self.derivitive = derivitive
+             self.derivitive = scratch
 
 #********************************************************************************************************
 
@@ -312,10 +309,10 @@ class WidgetGallery(QDialog):
 
         if radio.isChecked():
 
-           command = mode_messages.get(radio.text())
+           mode = mode_messages.get(radio.text())
 
-           if command != None:
-              self.__sendControllerMsg(command,radio.text())
+           if mode != None:
+              self.__sendControllerMsg(mode,radio.text())
            else: 
               print("Undefined mode message string: " + radio.text())
  
