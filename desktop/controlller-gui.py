@@ -46,61 +46,61 @@ import msgpack
 
 #********************************************************************************************************
 
-MSG_GENERAL_BASE = 0
+TX_MSG_GENERAL_BASE = 0
 
-MSG_RESET         = MSG_GENERAL_BASE+0
-MSG_INIT          = MSG_GENERAL_BASE+1
-MSG_SHUTDOWN      = MSG_GENERAL_BASE+2
-MSG_PANIC         = MSG_GENERAL_BASE+3
+TX_MSG_RESET         = TX_MSG_GENERAL_BASE+0
+TX_MSG_INIT          = TX_MSG_GENERAL_BASE+1
+TX_MSG_SHUTDOWN      = TX_MSG_GENERAL_BASE+2
+TX_MSG_PANIC         = TX_MSG_GENERAL_BASE+3
 
 #----------------------- PID Control Messages ------------------------------
 
-MSG_SEND_PID_BASE = 0x1000
+TX_MSG_SEND_PID_BASE = 0x1000
 
-MSG_SEND_PID      = MSG_SEND_PID_BASE+0
-MSG_SEND_PID_GAIN = MSG_SEND_PID_BASE+1
+TX_MSG_SEND_PID      = TX_MSG_SEND_PID_BASE+0
+TX_MSG_SEND_PID_GAIN = TX_MSG_SEND_PID_BASE+1
 
 #--------------------- Controller Mode Messages ----------------------------
 
-MSG_SET_MODE_BASE = 0x2000
+TX_MSG_SET_MODE_BASE = 0x2000
 
-MSG_SET_IDLE_MODE            = MSG_SET_MODE_BASE+0
-MSG_SET_MANUAL_MODE          = MSG_SET_MODE_BASE+1
-MSG_SET_PID_MODE             = MSG_SET_MODE_BASE+2
-MSG_SET_STATE_SPACE_MODE     = MSG_SET_MODE_BASE+3
-MSG_SET_AD_HOC_MODE          = MSG_SET_MODE_BASE+4
-MSG_SET_AI_MODE              = MSG_SET_MODE_BASE+5
-MSG_SET_PENDULUM_PERIOD_MODE = MSG_SET_MODE_BASE+6
-MSG_SET_PENDULUM_LENGTH_MODE = MSG_SET_MODE_BASE+7
-MSG_SET_RAIL_LENGTH_MODE     = MSG_SET_MODE_BASE+8
-MSG_SET_RAIL_CENTER_MODE     = MSG_SET_MODE_BASE+9
-MSG_SET_WINDUP_MODE          = MSG_SET_MODE_BASE+10
-MSG_SET_COMM_TEST_MODE       = MSG_SET_MODE_BASE+11
+TX_MSG_SET_IDLE_MODE            = TX_MSG_SET_MODE_BASE+0
+TX_MSG_SET_MANUAL_MODE          = TX_MSG_SET_MODE_BASE+1
+TX_MSG_SET_PID_MODE             = TX_MSG_SET_MODE_BASE+2
+TX_MSG_SET_STATE_SPACE_MODE     = TX_MSG_SET_MODE_BASE+3
+TX_MSG_SET_AD_HOC_MODE          = TX_MSG_SET_MODE_BASE+4
+TX_MSG_SET_AI_MODE              = TX_MSG_SET_MODE_BASE+5
+TX_MSG_SET_PENDULUM_PERIOD_MODE = TX_MSG_SET_MODE_BASE+6
+TX_MSG_SET_PENDULUM_LENGTH_MODE = TX_MSG_SET_MODE_BASE+7
+TX_MSG_SET_RAIL_LENGTH_MODE     = TX_MSG_SET_MODE_BASE+8
+TX_MSG_SET_RAIL_CENTER_MODE     = TX_MSG_SET_MODE_BASE+9
+TX_MSG_SET_WINDUP_MODE          = TX_MSG_SET_MODE_BASE+10
+TX_MSG_SET_COMM_TEST_MODE       = TX_MSG_SET_MODE_BASE+11
 
-mode_messages = { 'Idle'                   : MSG_SET_IDLE_MODE,
-                  'Manual'                 : MSG_SET_MANUAL_MODE,
-                  'PID Controller'         : MSG_SET_PID_MODE,
-                  'State Space Controller' : MSG_SET_STATE_SPACE_MODE,
-                  'Ad Hoc Controller'      : MSG_SET_AD_HOC_MODE,
-                  'AI Controller'          : MSG_SET_AI_MODE,
-                  'Pendulum Period Test'   : MSG_SET_PENDULUM_PERIOD_MODE,
-                  'Pendulum Length Test'   : MSG_SET_PENDULUM_LENGTH_MODE,
-                  'Rail Length Test'       : MSG_SET_RAIL_LENGTH_MODE,
-                  'Rail Center Test'       : MSG_SET_RAIL_CENTER_MODE,
-                  'Windup Test'            : MSG_SET_WINDUP_MODE,
-                  'Communications Test'    : MSG_SET_COMM_TEST_MODE     
+mode_messages = { 'Idle'                   : TX_MSG_SET_IDLE_MODE,
+                  'Manual'                 : TX_MSG_SET_MANUAL_MODE,
+                  'PID Controller'         : TX_MSG_SET_PID_MODE,
+                  'State Space Controller' : TX_MSG_SET_STATE_SPACE_MODE,
+                  'Ad Hoc Controller'      : TX_MSG_SET_AD_HOC_MODE,
+                  'AI Controller'          : TX_MSG_SET_AI_MODE,
+                  'Pendulum Period Test'   : TX_MSG_SET_PENDULUM_PERIOD_MODE,
+                  'Pendulum Length Test'   : TX_MSG_SET_PENDULUM_LENGTH_MODE,
+                  'Rail Length Test'       : TX_MSG_SET_RAIL_LENGTH_MODE,
+                  'Rail Center Test'       : TX_MSG_SET_RAIL_CENTER_MODE,
+                  'Windup Test'            : TX_MSG_SET_WINDUP_MODE,
+                  'Communications Test'    : TX_MSG_SET_COMM_TEST_MODE     
                 }
 
 #------------------------- Manual Control Messages ----------------------
 
-MSG_MANUAL_CONTROL_BASE = 0x3000
+TX_MSG_MANUAL_CONTROL_BASE = 0x3000
 
-MSG_MANUAL_CONTROL_JOG_LEFT    = MSG_MANUAL_CONTROL_BASE+0
-MSG_MANUAL_CONTROL_JOG_RIGHT   = MSG_MANUAL_CONTROL_BASE+1
-MSG_MANUAL_CONTROL_LEFT_HOME   = MSG_MANUAL_CONTROL_BASE+2
-MSG_MANUAL_CONTROL_CENTER_HOME = MSG_MANUAL_CONTROL_BASE+3
-MSG_MANUAL_CONTROL_RIGHT_HOME  = MSG_MANUAL_CONTROL_BASE+4
-MSG_MANUAL_CONTROL_JOG_SIZE    = MSG_MANUAL_CONTROL_BASE+5
+TX_MSG_MANUAL_CONTROL_JOG_LEFT    = TX_MSG_MANUAL_CONTROL_BASE+0
+TX_MSG_MANUAL_CONTROL_JOG_RIGHT   = TX_MSG_MANUAL_CONTROL_BASE+1
+TX_MSG_MANUAL_CONTROL_LEFT_HOME   = TX_MSG_MANUAL_CONTROL_BASE+2
+TX_MSG_MANUAL_CONTROL_CENTER_HOME = TX_MSG_MANUAL_CONTROL_BASE+3
+TX_MSG_MANUAL_CONTROL_RIGHT_HOME  = TX_MSG_MANUAL_CONTROL_BASE+4
+TX_MSG_MANUAL_CONTROL_JOG_SIZE    = TX_MSG_MANUAL_CONTROL_BASE+5
 
 #********************************************************************************************************
 
@@ -218,7 +218,7 @@ class WidgetGallery(QDialog):
 
     def __updatePID(self):
 
-        self.__sendControllerMsg(MSG_SEND_PID,"Send PID Data",self.proportional,self.integral, self.derivitive, self.gain)
+        self.__sendControllerMsg(TX_MSG_SEND_PID,"Send PID Data",self.proportional,self.integral, self.derivitive, self.gain)
 
 #********************************************************************************************************
 
@@ -416,39 +416,39 @@ class WidgetGallery(QDialog):
          
          if ok == True and scratchpad > 0.0:
             self.jog = scratchpad
-            self.__sendControllerMsg(MSG_MANUAL_CONTROL_JOG_SIZE,"Update Jog Size",self.jog)
+            self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_JOG_SIZE,"Update Jog Size",self.jog)
 
 #***************************************************************************************
 
     def jogLeftHandler(self):
 
-       self.__sendControllerMsg(MSG_MANUAL_CONTROL_JOG_LEFT,"Jog Left")
+       self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_JOG_LEFT,"Jog Left")
 
 
 #***************************************************************************************
 
     def jogRightHandler(self):
 
-       self.__sendControllerMsg(MSG_MANUAL_CONTROL_JOG_RIGHT,"Jog Right")
+       self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_JOG_RIGHT,"Jog Right")
 
 #***************************************************************************************
 
     def leftHomeHandler(self):
 
-       self.__sendControllerMsg(MSG_MANUAL_CONTROL_LEFT_HOME,"Left Home")
+       self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_LEFT_HOME,"Left Home")
 
 
 #***************************************************************************************
 
     def centerHomeHandler(self):
 
-       self.__sendControllerMsg(MSG_MANUAL_CONTROL_CENTER_HOME,"Center Home")
+       self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_CENTER_HOME,"Center Home")
 
 #***************************************************************************************
 
     def rightHomeHandler(self):
 
-       self.__sendControllerMsg(MSG_MANUAL_CONTROL_RIGHT_HOME,"Right Home")
+       self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_RIGHT_HOME,"Right Home")
 
 #***************************************************************************************
 
