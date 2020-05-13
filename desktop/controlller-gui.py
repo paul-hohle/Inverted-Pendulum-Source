@@ -43,6 +43,7 @@ from PyQt5.QtWidgets import QInputDialog
 #********************************************************************************************************
 
 import msgpack
+import socket
 
 #********************************************************************************************************
 
@@ -60,7 +61,7 @@ TX_MSG_SEND_PID_BASE = 0x1000
 TX_MSG_SEND_PID      = TX_MSG_SEND_PID_BASE+0
 TX_MSG_SEND_PID_GAIN = TX_MSG_SEND_PID_BASE+1
 
-#--------------------- Controller Mode Messages ----------------------------
+#--------------------- Outgoing Controller Mode Messages --------------------
 
 TX_MSG_SET_MODE_BASE = 0x2000
 
@@ -102,8 +103,13 @@ TX_MSG_MANUAL_CONTROL_CENTER_HOME = TX_MSG_MANUAL_CONTROL_BASE+3
 TX_MSG_MANUAL_CONTROL_RIGHT_HOME  = TX_MSG_MANUAL_CONTROL_BASE+4
 TX_MSG_MANUAL_CONTROL_JOG_SIZE    = TX_MSG_MANUAL_CONTROL_BASE+5
 
-#********************************************************************************************************
+#------------------------- Received Messages ---------------------------
 
+RX_MSG_BASE = 0x4000
+
+
+
+#********************************************************************************************************
 
 
 class WidgetGallery(QDialog):
@@ -111,8 +117,14 @@ class WidgetGallery(QDialog):
 
     def __init__(self, parent=None):
 
+
         super(WidgetGallery, self).__init__(parent)
 
+        host = "192.168.6.2"
+        port = 6666
+
+        self.sock = socket.socket()
+        self.sock.connect((host,port))
 
         self.originalPalette = QApplication.palette()
 
@@ -157,6 +169,7 @@ class WidgetGallery(QDialog):
         self.integral     = 3.0
         self.derivitive   = 4.0
         self.jog          = 2.0
+
 
 
 #********************************************************************************************************
@@ -208,11 +221,8 @@ class WidgetGallery(QDialog):
            print ("TX(0) : ",packet)
 
 
-        tx = msgpack.packb(packet)
-        rx = msgpack.unpackb(tx)
+        self.sock.send(msgpack.packb(packet, use_bin_type=True))
 
-
-        print ("RX    : ",rx)
 
 #********************************************************************************************************
 
@@ -488,6 +498,9 @@ if __name__ == '__main__':
 
     import sys
     import asyncio
+
+
+
 
     app = QApplication(sys.argv)
 
