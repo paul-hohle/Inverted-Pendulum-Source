@@ -412,8 +412,11 @@ class WidgetGallery(QDialog):
 
     def showJogSizeDialog(self):
 
-         self.jog, ok = QInputDialog.getDouble(self, 'Jog Size', '',self.jog)
-         self.__sendControllerMsg(MSG_MANUAL_CONTROL_JOG_SIZE,"Update Jog Size",self.jog)
+         scratchpad, ok = QInputDialog.getDouble(self, 'Jog Size', '',self.jog)
+         
+         if ok == True and scratchpad > 0.0:
+            self.jog = scratchpad
+            self.__sendControllerMsg(MSG_MANUAL_CONTROL_JOG_SIZE,"Update Jog Size",self.jog)
 
 #***************************************************************************************
 
