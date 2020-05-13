@@ -161,10 +161,18 @@ class WidgetGallery(QDialog):
 
 #********************************************************************************************************
 
-    def putIncomingMsg(self,text):
+    def putRxConsole(self,text):
 
         self.incoming.append(text)
         self.incoming.moveCursor(QtGui.QTextCursor.End)
+
+
+#********************************************************************************************************
+
+    def putTxConsole(self,text):
+
+        self.outgoing.append(text)
+        self.outgoing.moveCursor(QtGui.QTextCursor.End)
 
 
 #********************************************************************************************************
@@ -173,9 +181,8 @@ class WidgetGallery(QDialog):
 
         dummy = 0.0
 
-        self.outgoing.append(text)
-        self.outgoing.moveCursor(QtGui.QTextCursor.End)
-
+        self.putTxConsole(text)
+   
         if arg4 != None:
 
            packet = [message,arg1,arg2,arg3,arg4]
@@ -484,7 +491,7 @@ if __name__ == '__main__':
     gui = WidgetGallery()
 
     gui.show()
-    gui.putIncomingMsg("Incoming controller message")
+    gui.putRxConsole("Incoming controller message")
 
     sys.exit(app.exec_()) 
 
