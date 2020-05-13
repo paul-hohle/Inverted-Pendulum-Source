@@ -199,29 +199,24 @@ class WidgetGallery(QDialog):
         if arg4 != None:
 
            packet = [message,arg1,arg2,arg3,arg4]
-           print ("TX(4) : ",packet)
 
         elif arg3 != None:
 
            packet = [message,arg1,arg2,arg3,dummy]
-           print ("TX(3) : ",packet)
 
         elif arg2 != None:
 
            packet = [message,arg1,arg2,dummy,dummy]
-           print ("TX(2) : ",packet)
 
         elif arg1 != None:
 
            packet = [message,arg1,dummy,dummy,dummy]
-           print ("TX(1) : ",packet)
 
         else:
            packet = [message,dummy,dummy,dummy,dummy]
-           print ("TX(0) : ",packet)
 
 
-        self.sock.send(msgpack.packb(packet, use_bin_type=True))
+        self.sock.send(msgpack.packb(packet))
 
 
 #********************************************************************************************************
