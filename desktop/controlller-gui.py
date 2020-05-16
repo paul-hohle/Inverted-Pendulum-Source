@@ -44,76 +44,23 @@ from PyQt5.QtWidgets import QInputDialog
 
 import msgpack
 import socket
+from Messages import controllerMsgs
 
 #********************************************************************************************************
 
-TX_MSG_GENERAL_BASE = 0
 
-TX_MSG_RESET         = TX_MSG_GENERAL_BASE+0
-TX_MSG_INIT          = TX_MSG_GENERAL_BASE+1
-TX_MSG_SHUTDOWN      = TX_MSG_GENERAL_BASE+2
-TX_MSG_PANIC         = TX_MSG_GENERAL_BASE+3
-
-#----------------------- PID Control Messages ------------------------------
-
-TX_MSG_SEND_PID_BASE = 0x1000
-
-TX_MSG_SEND_PID      = TX_MSG_SEND_PID_BASE+0
-TX_MSG_SEND_PID_GAIN = TX_MSG_SEND_PID_BASE+1
-
-#--------------------- Outgoing Controller Mode Messages --------------------
-
-TX_MSG_SET_MODE_BASE = 0x2000
-
-TX_MSG_SET_IDLE_MODE            = TX_MSG_SET_MODE_BASE+0
-TX_MSG_SET_MANUAL_MODE          = TX_MSG_SET_MODE_BASE+1
-TX_MSG_SET_PID_MODE             = TX_MSG_SET_MODE_BASE+2
-TX_MSG_SET_STATE_SPACE_MODE     = TX_MSG_SET_MODE_BASE+3
-TX_MSG_SET_AI_MODE              = TX_MSG_SET_MODE_BASE+4
-TX_MSG_SET_PENDULUM_PERIOD_MODE = TX_MSG_SET_MODE_BASE+5
-TX_MSG_SET_PENDULUM_LENGTH_MODE = TX_MSG_SET_MODE_BASE+6
-TX_MSG_SET_RAIL_LENGTH_MODE     = TX_MSG_SET_MODE_BASE+7
-TX_MSG_SET_RAIL_CENTER_MODE     = TX_MSG_SET_MODE_BASE+8
-TX_MSG_SET_WINDUP_MODE          = TX_MSG_SET_MODE_BASE+9
-TX_MSG_SET_COMM_TEST_MODE       = TX_MSG_SET_MODE_BASE+10
-
-mode_messages = { 'Idle'                   : TX_MSG_SET_IDLE_MODE,
-                  'Manual'                 : TX_MSG_SET_MANUAL_MODE,
-                  'PID Controller'         : TX_MSG_SET_PID_MODE,
-                  'State Space Controller' : TX_MSG_SET_STATE_SPACE_MODE,
-                  'AI Controller'          : TX_MSG_SET_AI_MODE,
-                  'Pendulum Period Test'   : TX_MSG_SET_PENDULUM_PERIOD_MODE,
-                  'Pendulum Length Test'   : TX_MSG_SET_PENDULUM_LENGTH_MODE,
-                  'Rail Length Test'       : TX_MSG_SET_RAIL_LENGTH_MODE,
-                  'Rail Center Test'       : TX_MSG_SET_RAIL_CENTER_MODE,
-                  'Windup Test'            : TX_MSG_SET_WINDUP_MODE,
-                  'Communications Test'    : TX_MSG_SET_COMM_TEST_MODE,
+mode_messages = { 'Idle'                   : controllerMsgs.TX_MSG_SET_IDLE_MODE,
+                  'Manual'                 : controllerMsgs.TX_MSG_SET_MANUAL_MODE,
+                  'PID Controller'         : controllerMsgs.TX_MSG_SET_PID_MODE,
+                  'State Space Controller' : controllerMsgs.TX_MSG_SET_STATE_SPACE_MODE,
+                  'AI Controller'          : controllerMsgs.TX_MSG_SET_AI_MODE,
+                  'Pendulum Period Test'   : controllerMsgs.TX_MSG_SET_PENDULUM_PERIOD_MODE,
+                  'Pendulum Length Test'   : controllerMsgs.TX_MSG_SET_PENDULUM_LENGTH_MODE,
+                  'Rail Length Test'       : controllerMsgs.TX_MSG_SET_RAIL_LENGTH_MODE,
+                  'Rail Center Test'       : controllerMsgs.TX_MSG_SET_RAIL_CENTER_MODE,
+                  'Windup Test'            : controllerMsgs.TX_MSG_SET_WINDUP_MODE,
+                  'Communications Test'    : controllerMsgs.TX_MSG_SET_COMM_TEST_MODE,
                 }
-
-#------------------------- Manual Control Messages ----------------------
-
-TX_MSG_MANUAL_CONTROL_BASE = 0x3000
-
-TX_MSG_MANUAL_CONTROL_JOG_LEFT    = TX_MSG_MANUAL_CONTROL_BASE+0
-TX_MSG_MANUAL_CONTROL_JOG_RIGHT   = TX_MSG_MANUAL_CONTROL_BASE+1
-TX_MSG_MANUAL_CONTROL_LEFT_HOME   = TX_MSG_MANUAL_CONTROL_BASE+2
-TX_MSG_MANUAL_CONTROL_CENTER_HOME = TX_MSG_MANUAL_CONTROL_BASE+3
-TX_MSG_MANUAL_CONTROL_RIGHT_HOME  = TX_MSG_MANUAL_CONTROL_BASE+4
-TX_MSG_MANUAL_CONTROL_JOG_SIZE    = TX_MSG_MANUAL_CONTROL_BASE+5
-
-
-
-#-------------------- Angle Sensor Control Messages ----------------------
-
-TX_MSG_ANGLE_SENSOR_BASE = 0x4000
-
-TX_MSG_USE_ROTARY_ENCODER = TX_MSG_ANGLE_SENSOR_BASE+0
-TX_MSG_USE_ACCELEROMETER  = TX_MSG_ANGLE_SENSOR_BASE+1
-
-#------------------------- Received Messages ---------------------------
-
-RX_MSG_BASE = 0x5000
-
 
 #********************************************************************************************************
 
@@ -315,9 +262,9 @@ class WidgetGallery(QDialog):
         if radio.isChecked():
 
            if radio.text() == "Rotary Encoder":
-              self.__sendControllerMsg(TX_MSG_USE_ROTARY_ENCODER,radio.text())
+              self.__sendControllerMsg(controllerMsgs.TX_MSG_USE_ROTARY_ENCODER,radio.text())
            elif radio.text() == "Accelerometer":
-              self.__sendControllerMsg(TX_MSG_USE_ACCELEROMETER,radio.text())
+              self.__sendControllerMsg(controllerMsgs.TX_MSG_USE_ACCELEROMETER,radio.text())
            else: 
               print("Undefined angle sensor message string: " + radio.text())
  
@@ -465,39 +412,39 @@ class WidgetGallery(QDialog):
          
          if ok == True and scratchpad > 0.0:
             self.jog = scratchpad
-            self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_JOG_SIZE,"Update Jog Size",self.jog)
+            self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_JOG_SIZE,"Update Jog Size",self.jog)
 
 #***************************************************************************************
 
     def jogLeftHandler(self):
 
-       self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_JOG_LEFT,"Jog Left")
+       self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_JOG_LEFT,"Jog Left")
 
 
 #***************************************************************************************
 
     def jogRightHandler(self):
 
-       self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_JOG_RIGHT,"Jog Right")
+       self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_JOG_RIGHT,"Jog Right")
 
 #***************************************************************************************
 
     def leftHomeHandler(self):
 
-       self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_LEFT_HOME,"Left Home")
+       self.__sendControllerMsg(controllerMsgsTX_MSG_MANUAL_CONTROL_LEFT_HOME,"Left Home")
 
 
 #***************************************************************************************
 
     def centerHomeHandler(self):
 
-       self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_CENTER_HOME,"Center Home")
+       self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_CENTER_HOME,"Center Home")
 
 #***************************************************************************************
 
     def rightHomeHandler(self):
 
-       self.__sendControllerMsg(TX_MSG_MANUAL_CONTROL_RIGHT_HOME,"Right Home")
+       self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_RIGHT_HOME,"Right Home")
 
 #***************************************************************************************
 
