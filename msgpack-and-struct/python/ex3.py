@@ -16,12 +16,19 @@ def msgpack_ex():
   derivitive   = 3.0
   gain         = 4.0
 
-  packet = (header,proportional,integral,derivitive,gain)
+  packet = [header,proportional,integral,derivitive,gain]
   tx     = msgpack.packb(packet)
   rx     = msgpack.unpackb(tx)
 
+  _header,_proportional,_integral,_derivitive,_gain = rx
+
   print("MsgPack Packed TX packet   : ",tx)
   print("MsgPack Unpacked RX packet : ",rx)
+  print("Header                     : ",hex(_header)) 
+  print("Proportional               : ",_proportional) 
+  print("Integral                   : ",_integral) 
+  print("Derivitive                 : ",_derivitive) 
+  print("Gain                       : ",_gain) 
 
 #***************************************************************************************************************
 
@@ -51,7 +58,6 @@ def struct_ex():
   print("Integral                  : ",_integral) 
   print("Derivitive                : ",_derivitive) 
   print("Gain                      : ",_gain) 
-
 
 #***************************************************************************************************************
 
