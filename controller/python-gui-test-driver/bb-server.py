@@ -38,6 +38,18 @@ def handle_pendulum_period_mode_msg(packet):
     print ("Set pendulum period test mode")
     return False
 
+def handle_pendulum_length_mode_msg(packet):
+    print ("Set pendulum length test mode")
+    return False
+
+def handle_rail_length_mode_msg(packet):
+    print ("Set rail length test mode")
+    return False
+
+def handle_rail_center_mode_msg(packet):
+    print ("Set rail center test mode")
+    return False
+
 def handle_accelerometer_msg(packet):
 
     print ("Use accelerometer angle sensor")
@@ -59,8 +71,13 @@ messages = { 0x2000 : handle_idle_mode_msg,
              0x2003 : handle_state_space_mode_msg,
              0x2004 : handle_ai_controller_mode_msg,
              0x2005 : handle_pendulum_period_mode_msg,
+             0x2006 : handle_pendulum_length_mode_msg,
+             0x2007 : handle_rail_length_mode_msg,
+             0x2008 : handle_rail_center_mode_msg,
+
              0x4000 : handle_rotary_encoder_msg,
              0x4001 : handle_accelerometer_msg,
+
              0xffff : handle_shutdown_msg,
            }
 
