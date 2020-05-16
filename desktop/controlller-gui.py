@@ -89,7 +89,7 @@ mode_messages = { 'Idle'                   : TX_MSG_SET_IDLE_MODE,
                   'Rail Length Test'       : TX_MSG_SET_RAIL_LENGTH_MODE,
                   'Rail Center Test'       : TX_MSG_SET_RAIL_CENTER_MODE,
                   'Windup Test'            : TX_MSG_SET_WINDUP_MODE,
-                  'Communications Test'    : TX_MSG_SET_COMM_TEST_MODE     
+                  'Communications Test'    : TX_MSG_SET_COMM_TEST_MODE,
                 }
 
 #------------------------- Manual Control Messages ----------------------
@@ -103,10 +103,18 @@ TX_MSG_MANUAL_CONTROL_CENTER_HOME = TX_MSG_MANUAL_CONTROL_BASE+3
 TX_MSG_MANUAL_CONTROL_RIGHT_HOME  = TX_MSG_MANUAL_CONTROL_BASE+4
 TX_MSG_MANUAL_CONTROL_JOG_SIZE    = TX_MSG_MANUAL_CONTROL_BASE+5
 
+
+
+#-------------------- Angle Sensor Control Messages ----------------------
+
+TX_MSG_ANGLE_SENSOR_BASE = 0x4000
+
+TX_MSG_USE_ROTARY_ENCODER = TX_MSG_ANGLE_SENSOR_BASE+0
+TX_MSG_USE_ACCELEROMETER  = TX_MSG_ANGLE_SENSOR_BASE+1
+
 #------------------------- Received Messages ---------------------------
 
-RX_MSG_BASE = 0x4000
-
+RX_MSG_BASE = 0x5000
 
 
 #********************************************************************************************************
@@ -139,7 +147,7 @@ class WidgetGallery(QDialog):
         self.__createModeGroupBox()
         self.__createManualGroupBox()
         self.__createPIDGroupBox()
-
+        self.__createAngleSensorGroupBox()
 
         topLayout = QHBoxLayout()
         topLayout.addStretch(1)
@@ -153,6 +161,7 @@ class WidgetGallery(QDialog):
         mainLayout.addWidget(self.incomingGroupBox, 2, 0)
         mainLayout.addWidget(self.outgoingGroupBox, 2, 1)
         mainLayout.addWidget(self.PIDGroupBox, 1, 2)
+        mainLayout.addWidget(self.angleSensorGroupBox, 2, 2)
 
         mainLayout.setRowStretch(1, 1)
         mainLayout.setRowStretch(2, 1)
@@ -174,7 +183,7 @@ class WidgetGallery(QDialog):
 
 #********************************************************************************************************
 
-    def putRxConsole(self,text):
+    def putRxDebugConsole(self,text):
 
         self.incoming.append(text)
         self.incoming.moveCursor(QtGui.QTextCursor.End)
@@ -182,7 +191,7 @@ class WidgetGallery(QDialog):
 
 #********************************************************************************************************
 
-    def putTxConsole(self,text):
+    def putTxDebugConsole(self,text):
 
         self.outgoing.append(text)
         self.outgoing.moveCursor(QtGui.QTextCursor.End)
@@ -194,7 +203,7 @@ class WidgetGallery(QDialog):
 
         dummy = 0.0
 
-        self.putTxConsole(text)
+        self.putTxDebugConsole(text)
    
         if arg4 != None:
 
@@ -300,6 +309,46 @@ class WidgetGallery(QDialog):
 
          if ok == True:
              self.derivitive = scratchpad
+
+#********************************************************************************************************
+
+    def angleSensorRadioButtonHandler(self,radio):
+
+        if radio.isChecked():
+
+           if radio.text() == "Rotary Encoder":
+              self.__sendControllerMsg(TX_MSG_USE_ROTARY_ENCODER,radio.text())
+           elif radio.text() == "Accelerometer":
+              self.__sendControllerMsg(TX_MSG_USE_ACCELEROMETER,radio.text())
+           else: 
+              print("Undefined angle sensor message string: " + radio.text())
+ 
+
+#********************************************************************************************************
+
+    def __createAngleSensorGroupBox(self):
+
+        self.angleSensorGroupBox = QGroupBox("Pendulum Angle Sensor")
+
+
+        accelerometerRadioButton = QRadioButton("Accelerometer")
+        rotaryEncoderRadioButton = QRadioButton("Rotary Encoder")
+
+
+        accelerometerRadioButton.toggled.connect(lambda:self.angleSensorRadioButtonHandler(accelerometerRadioButton))
+        rotaryEncoderRadioButton.toggled.connect(lambda:self.angleSensorRadioButtonHandler(rotaryEncoderRadioButton))
+
+        rotaryEncoderRadioButton.setChecked(True)
+
+        layout = QVBoxLayout()
+
+        layout.addWidget(rotaryEncoderRadioButton)
+        layout.addWidget(accelerometerRadioButton)
+
+
+        layout.addStretch(1)
+
+        self.angleSensorGroupBox.setLayout(layout)  
 
 #********************************************************************************************************
 
@@ -502,7 +551,7 @@ if __name__ == '__main__':
     gui = WidgetGallery()
 
     gui.show()
-    gui.putRxConsole("Incoming controller message")
+    gui.putRxDebugConsole("Incoming controller message")
 
     sys.exit(app.exec_()) 
 
