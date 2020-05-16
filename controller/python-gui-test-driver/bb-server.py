@@ -30,6 +30,14 @@ def handle_state_space_mode_msg(packet):
     print ("Set State Space mode")
     return False
 
+def handle_ai_controller_mode_msg(packet):
+    print ("Set AI controller mode")
+    return False
+
+def handle_pendulum_period_mode_msg(packet):
+    print ("Set pendulum period test mode")
+    return False
+
 def handle_accelerometer_msg(packet):
 
     print ("Use accelerometer angle sensor")
@@ -49,6 +57,8 @@ messages = { 0x2000 : handle_idle_mode_msg,
              0x2001 : handle_manual_mode_msg,
              0x2002 : handle_pid_mode_msg,
              0x2003 : handle_state_space_mode_msg,
+             0x2004 : handle_ai_controller_mode_msg,
+             0x2005 : handle_pendulum_period_mode_msg,
              0x4000 : handle_rotary_encoder_msg,
              0x4001 : handle_accelerometer_msg,
              0xffff : handle_shutdown_msg,
