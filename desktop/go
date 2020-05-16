@@ -1,3 +1,4 @@
 #!/bin/bash
 
+# Run GUI test driver
 py3.5 controlller-gui.py
