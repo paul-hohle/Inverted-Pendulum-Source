@@ -69,20 +69,18 @@ TX_MSG_SET_IDLE_MODE            = TX_MSG_SET_MODE_BASE+0
 TX_MSG_SET_MANUAL_MODE          = TX_MSG_SET_MODE_BASE+1
 TX_MSG_SET_PID_MODE             = TX_MSG_SET_MODE_BASE+2
 TX_MSG_SET_STATE_SPACE_MODE     = TX_MSG_SET_MODE_BASE+3
-TX_MSG_SET_AD_HOC_MODE          = TX_MSG_SET_MODE_BASE+4
-TX_MSG_SET_AI_MODE              = TX_MSG_SET_MODE_BASE+5
-TX_MSG_SET_PENDULUM_PERIOD_MODE = TX_MSG_SET_MODE_BASE+6
-TX_MSG_SET_PENDULUM_LENGTH_MODE = TX_MSG_SET_MODE_BASE+7
-TX_MSG_SET_RAIL_LENGTH_MODE     = TX_MSG_SET_MODE_BASE+8
-TX_MSG_SET_RAIL_CENTER_MODE     = TX_MSG_SET_MODE_BASE+9
-TX_MSG_SET_WINDUP_MODE          = TX_MSG_SET_MODE_BASE+10
-TX_MSG_SET_COMM_TEST_MODE       = TX_MSG_SET_MODE_BASE+11
+TX_MSG_SET_AI_MODE              = TX_MSG_SET_MODE_BASE+4
+TX_MSG_SET_PENDULUM_PERIOD_MODE = TX_MSG_SET_MODE_BASE+5
+TX_MSG_SET_PENDULUM_LENGTH_MODE = TX_MSG_SET_MODE_BASE+6
+TX_MSG_SET_RAIL_LENGTH_MODE     = TX_MSG_SET_MODE_BASE+7
+TX_MSG_SET_RAIL_CENTER_MODE     = TX_MSG_SET_MODE_BASE+8
+TX_MSG_SET_WINDUP_MODE          = TX_MSG_SET_MODE_BASE+9
+TX_MSG_SET_COMM_TEST_MODE       = TX_MSG_SET_MODE_BASE+10
 
 mode_messages = { 'Idle'                   : TX_MSG_SET_IDLE_MODE,
                   'Manual'                 : TX_MSG_SET_MANUAL_MODE,
                   'PID Controller'         : TX_MSG_SET_PID_MODE,
                   'State Space Controller' : TX_MSG_SET_STATE_SPACE_MODE,
-                  'Ad Hoc Controller'      : TX_MSG_SET_AD_HOC_MODE,
                   'AI Controller'          : TX_MSG_SET_AI_MODE,
                   'Pendulum Period Test'   : TX_MSG_SET_PENDULUM_PERIOD_MODE,
                   'Pendulum Length Test'   : TX_MSG_SET_PENDULUM_LENGTH_MODE,
@@ -360,7 +358,6 @@ class WidgetGallery(QDialog):
         manualRadioButton          = QRadioButton("Manual")
         pidRadioButton             = QRadioButton("PID Controller")
         stateSpaceRadioButton      = QRadioButton("State Space Controller")
-        adHocRadioButton           = QRadioButton("Ad Hoc Controller")
         aiRadioButton              = QRadioButton("AI Controller")
         periodRadioButton          = QRadioButton("Pendulum Period Test")
         pendulumLengthRadioButton  = QRadioButton("Pendulum Length Test")
@@ -373,7 +370,6 @@ class WidgetGallery(QDialog):
         manualRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(manualRadioButton))
         pidRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(pidRadioButton))
         stateSpaceRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(stateSpaceRadioButton))
-        adHocRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(adHocRadioButton))
         aiRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(aiRadioButton))
         periodRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(periodRadioButton))
         pendulumLengthRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(pendulumLengthRadioButton))
@@ -390,7 +386,6 @@ class WidgetGallery(QDialog):
         layout.addWidget(manualRadioButton)
         layout.addWidget(pidRadioButton)
         layout.addWidget(stateSpaceRadioButton)
-        layout.addWidget(adHocRadioButton)
         layout.addWidget(aiRadioButton)
         layout.addWidget(periodRadioButton)
         layout.addWidget(pendulumLengthRadioButton)
