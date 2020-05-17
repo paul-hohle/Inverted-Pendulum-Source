@@ -17,6 +17,7 @@
 
 #include <msgpack.hpp>
 #include <nngpp/nngpp.h>
+#include <robotcontrol.h>
 
 //*****************************************************************************************
 
