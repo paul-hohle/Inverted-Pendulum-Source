@@ -23,7 +23,6 @@ accelerometer.o : accelerometer.cpp
 stepper.o : stepper.cpp
 	g++ $(FLAGS) -c stepper.cpp
 
-
 clean:
 	rm -f *.o 
 	rm -f controller
