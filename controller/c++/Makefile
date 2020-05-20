@@ -20,3 +20,6 @@ encoder.o : encoder.cpp
 clean:
 	rm -f *.o 
 	rm -f controller
+
+
+
