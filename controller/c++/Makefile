@@ -1,8 +1,8 @@
 LIBS=robotcontrol
 FLAGS=-Wall
 
-controller : controller.o led.o button.o encoder.o stepper.o accelerometer.o
-	g++ -o controller controller.o led.o button.o encoder.o stepper.o accelerometer.o -l$(LIBS)
+controller : net.o controller.o led.o button.o encoder.o stepper.o accelerometer.o
+	g++ -o controller net.o controller.o led.o button.o encoder.o stepper.o accelerometer.o -l$(LIBS)
 
 controller.o : controller.cpp
 	g++ $(FLAGS) -c controller.cpp
@@ -19,9 +19,11 @@ encoder.o : encoder.cpp
 accelerometer.o : accelerometer.cpp
 	g++ $(FLAGS) -c accelerometer.cpp
 
-
 stepper.o : stepper.cpp
 	g++ $(FLAGS) -c stepper.cpp
+
+net.o : net.cpp
+	g++ $(FLAGS) -c net.cpp
 
 clean:
 	rm -f *.o 
