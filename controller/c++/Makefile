@@ -3,11 +3,14 @@ LIBS=robotcontrol
 
 ifeq (${shell uname -p},x86_64)
 
-INC=/home/paul/cross/armv7l/usr/local/include
-LIB_PATH=/home/paul/cross/armv7l/usr/local/lib
+ARM=/home/paul/cross/armv7l
+INC=${ARM}/usr/local/include
+
+LROBOT_DIR=${ARM}/usr/local/lib
+LINK_FLAGS= -lm -lrt -pthread -L $(LROBOT_DIR) -l:librobotcontrol.so.1
+
 CC_FLAGS=-Wall -I$(INC) 
-LINK_FLAGS=-L$(LIB_PATH) -l$(LIBS)
-XCC=/home/paul/cross/armv7l/bin/arm-linux-gnueabihf-g++ 
+XCC=${ARM}/bin/arm-linux-gnueabihf-g++ 
 
 else
 
