@@ -1,50 +1,49 @@
-
-LIBS=robotcontrol
-
 ifeq (${shell uname -p},x86_64)
 
 ARM=/home/paul/cross/armv7l
 INC=${ARM}/usr/local/include
 
+LROBOT=-l:librobotcontrol.so.1
 LROBOT_DIR=${ARM}/usr/local/lib
-LINK_FLAGS= -lm -lrt -pthread -L $(LROBOT_DIR) -l:librobotcontrol.so.1
+LFLAGS= -lm -lrt -pthread -L $(LROBOT_DIR) ${LROBOT}
 
-CC_FLAGS=-Wall -I$(INC) 
+CFLAGS=-Wall -I$(INC) 
 XCC=${ARM}/bin/arm-linux-gnueabihf-g++ 
 
 else
 
 LINK_FLAGS=
-CC_FLAGS=-Wall 
+CFLAGS=-Wall 
 XCC=g++
 
 endif
 
+#**********************************************************************************************************************
 
 
 controller : controller.o led.o button.o encoder.o stepper.o accelerometer.o net.o
-	$(XCC) -o controller net.o controller.o led.o button.o encoder.o stepper.o accelerometer.o net.o ${LINK_FLAGS}
+	$(XCC) -o controller net.o controller.o led.o button.o encoder.o stepper.o accelerometer.o net.o ${LFLAGS}
 
 controller.o : controller.cpp
-	$(XCC)  $(CC_FLAGS) -c controller.cpp
+	$(XCC)  $(CFLAGS) -c controller.cpp
 
 led.o : led.cpp
-	$(XCC) $(CC_FLAGS) -c led.cpp
+	$(XCC) $(CFLAGS) -c led.cpp
 
 button.o : button.cpp
-	$(XCC) $(CC_FLAGS) -c button.cpp
+	$(XCC) $(CFLAGS) -c button.cpp
 
 encoder.o : encoder.cpp
-	$(XCC) $(CC_FLAGS) -c encoder.cpp
+	$(XCC) $(CFLAGS) -c encoder.cpp
 
 accelerometer.o : accelerometer.cpp
-	$(XCC) $(CC_FLAGS) -c accelerometer.cpp
+	$(XCC) $(CFLAGS) -c accelerometer.cpp
 
 stepper.o : stepper.cpp
-	$(XCC) $(CC_FLAGS) -c stepper.cpp
+	$(XCC) $(CFLAGS) -c stepper.cpp
 
 net.o	 : net.cpp
-	$(XCC) $(CC_FLAGS) -c net.cpp
+	$(XCC) $(CFLAGS) -c net.cpp
 
 clean:
 	rm -f *.o 
