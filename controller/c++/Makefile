@@ -1,11 +1,11 @@
-
 ifeq (${shell uname -p},x86_64)
+
 ARM=/home/paul/cross/armv7l
 INC=${ARM}/usr/local/include
 
 LROBOT=-l:librobotcontrol.so.1
 LROBOT_DIR=${ARM}/usr/local/lib
-LFLAGS= -lm  -pthread -lnng -L $(LROBOT_DIR) ${LROBOT} 
+LFLAGS= -lm -lrt -pthread -L $(LROBOT_DIR) ${LROBOT}
 
 CFLAGS=-Wall -I$(INC) 
 XCC=${ARM}/bin/arm-linux-gnueabihf-g++ 
@@ -23,6 +23,7 @@ endif
 
 controller : controller.o led.o button.o encoder.o stepper.o accelerometer.o net.o
 	$(XCC) -o controller net.o controller.o led.o button.o encoder.o stepper.o accelerometer.o net.o ${LFLAGS}
+
 ifeq (${shell uname -p},x86_64)
 	cp controller ~/mnt/bb
 endif
