@@ -22,7 +22,7 @@ endif
 
 
 controller : controller.o led.o button.o encoder.o stepper.o accelerometer.o net.o
-	$(XCC) -o controller net.o controller.o led.o button.o encoder.o stepper.o accelerometer.o net.o ${LFLAGS}
+	$(XCC) -o controller net.o controller.o led.o button.o encoder.o stepper.o accelerometer.o ${LFLAGS}
 
 ifeq (${shell uname -p},x86_64)
 	cp controller ~/mnt/bb
