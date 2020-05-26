@@ -50,8 +50,13 @@ net.o	 : net.cpp
 	$(XCC) $(CFLAGS) -c net.cpp
 
 ifeq (${shell uname -p},x86_64)
-sync:
+
+upload-all:
 	cp * ~/mnt/bb/build/Inverted-Pendulum-Source/controller/c++
+
+upload-bin:
+	cp controller ~/mnt/bb/build/Inverted-Pendulum-Source/controller/c++
+
 endif
 
 
