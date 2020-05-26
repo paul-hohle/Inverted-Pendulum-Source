@@ -5,7 +5,7 @@ INC=${ARM}/usr/local/include
 
 LROBOT=-l:librobotcontrol.so.1
 LROBOT_DIR=${ARM}/usr/local/lib
-LFLAGS= -lm -lrt -pthread -L $(LROBOT_DIR) ${LROBOT}
+LFLAGS= -lnng -lm -lrt -pthread -L $(LROBOT_DIR) ${LROBOT}
 
 CFLAGS=-Wall -I$(INC) 
 XCC=${ARM}/bin/arm-linux-gnueabihf-g++ 
