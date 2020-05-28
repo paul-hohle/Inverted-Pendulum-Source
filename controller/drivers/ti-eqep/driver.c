@@ -7,7 +7,6 @@
 
 //*************************************************************************************
 
-
 #include <linux/bitops.h>
 #include "counter.h"
 #include <linux/kernel.h>
@@ -70,6 +69,8 @@
 #define QEPCTL_QCLM		BIT(2)
 #define QEPCTL_UTE		BIT(1)
 #define QEPCTL_WDE		BIT(0)
+
+//#define COUNTER_REGISTER 
 
 //*************************************************************************************
 
@@ -433,7 +434,7 @@ static int ti_eqep_probe(struct platform_device *pdev)
 	struct device *dev = &pdev->dev;
 	struct ti_eqep_cnt *priv;
 	void __iomem *base;
-#if 0
+#ifdef COUNTER_REGISTER
 	int err;
 #endif
 
@@ -474,7 +475,7 @@ static int ti_eqep_probe(struct platform_device *pdev)
 	pm_runtime_enable(dev);
 	pm_runtime_get_sync(dev);
 
-#if 0
+#ifdef COUNTER_REGISTER
 	err = counter_register(&priv->counter);
 	if (err < 0) {
 		pm_runtime_put_sync(dev);
@@ -490,12 +491,12 @@ static int ti_eqep_probe(struct platform_device *pdev)
 
 static int ti_eqep_remove(struct platform_device *pdev)
 {
-#if 0
+#ifdef COUNTER_REGISTER
 	struct ti_eqep_cnt *priv = platform_get_drvdata(pdev);
 #endif
 	struct device *dev = &pdev->dev;
 
-#if 0 
+#ifdef COUNTER_REGISTER
 	counter_unregister(&priv->counter);
 #endif
 	pm_runtime_put_sync(dev),
