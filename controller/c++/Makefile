@@ -3,8 +3,8 @@ LIBS=robotcontrol
 
 ifeq (${shell uname -p},x86_64)
 
-INC=/home/paul/cross/arm/usr/local/include
-LIB_PATH=/home/paul/cross/arm/usr/local/lib
+INC=/home/paul/cross/armv7l/usr/local/include
+LIB_PATH=/home/paul/cross/armv7l/usr/local/lib
 CC_FLAGS=-Wall -I$(INC) 
 LINK_FLAGS=-L$(LIB_PATH) -l$(LIBS)
 XCC=arm-g++
