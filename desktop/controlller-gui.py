@@ -123,6 +123,7 @@ class WidgetGallery(QDialog):
         self.integral     = 3.0
         self.derivitive   = 4.0
         self.jog          = 2.0
+        self.mode         = controllerMsgs.TX_MSG_SET_IDLE_MODE
 
 
 
@@ -352,10 +353,11 @@ class WidgetGallery(QDialog):
 
         if radio.isChecked():
 
-           mode = mode_messages.get(radio.text())
+           new_mode = mode_messages.get(radio.text())
 
-           if mode != None:
-              self.__sendControllerMsg(mode,radio.text())
+           if new_mode != None:
+              self.mode = new_mode
+              self.__sendControllerMsg(new_mode,radio.text())
            else: 
               print("Undefined mode message string: " + radio.text())
  
@@ -367,14 +369,14 @@ class WidgetGallery(QDialog):
 
         self.manualGroupBox = QGroupBox("Manual Controls")
 
-        leftHomePushButton = QPushButton("Left Home")
-        leftHomePushButton.setCheckable(True)
+        leftParkPushButton = QPushButton("Left Park")
+        leftParkPushButton.setCheckable(True)
 
-        centerHomePushButton = QPushButton("Center Home")
-        centerHomePushButton.setCheckable(True)
+        centerParkPushButton = QPushButton("Center Park")
+        centerParkPushButton.setCheckable(True)
 
-        rightHomePushButton = QPushButton("Right Home")
-        rightHomePushButton.setCheckable(True)
+        rightParkPushButton = QPushButton("Right Park")
+        rightParkPushButton.setCheckable(True)
 
         jogLeftPushButton = QPushButton("Jog Left")
         jogLeftPushButton.setCheckable(True)
@@ -384,18 +386,18 @@ class WidgetGallery(QDialog):
 
         jogLeftPushButton.toggled.connect(lambda:self.jogLeftHandler())
         jogRightPushButton.toggled.connect(lambda:self.jogRightHandler())
-        leftHomePushButton.toggled.connect(lambda:self.leftHomeHandler())
-        rightHomePushButton.toggled.connect(lambda:self.rightHomeHandler())
-        centerHomePushButton.toggled.connect(lambda:self.centerHomeHandler())
+        leftParkPushButton.toggled.connect(lambda:self.leftParkHandler())
+        rightParkPushButton.toggled.connect(lambda:self.rightParkHandler())
+        centerParkPushButton.toggled.connect(lambda:self.centerParkHandler())
                                                                                         
         jogSizeButton = QPushButton('Edit Jog Size', self)
         jogSizeButton.clicked.connect(self.showJogSizeDialog)
 
         layout = QVBoxLayout()
 
-        layout.addWidget(leftHomePushButton)
-        layout.addWidget(centerHomePushButton)
-        layout.addWidget(rightHomePushButton)
+        layout.addWidget(leftParkPushButton)
+        layout.addWidget(centerParkPushButton)
+        layout.addWidget(rightParkPushButton)
         layout.addWidget(jogLeftPushButton)
         layout.addWidget(jogRightPushButton)
         layout.addWidget(jogSizeButton)
@@ -418,33 +420,38 @@ class WidgetGallery(QDialog):
 
     def jogLeftHandler(self):
 
-       self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_JOG_LEFT,"Jog Left")
+       if self.mode == controllerMsgs.TX_MSG_SET_MANUAL_MODE:
+          self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_JOG_LEFT,"Jog Left")
 
 
 #***************************************************************************************
 
     def jogRightHandler(self):
 
-       self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_JOG_RIGHT,"Jog Right")
+       if self.mode == controllerMsgs.TX_MSG_SET_MANUAL_MODE:
+           self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_JOG_RIGHT,"Jog Right")
 
 #***************************************************************************************
 
-    def leftHomeHandler(self):
+    def leftParkHandler(self):
 
-       self.__sendControllerMsg(controllerMsgsTX_MSG_MANUAL_CONTROL_LEFT_HOME,"Left Home")
+       if self.mode == controllerMsgs.TX_MSG_SET_MANUAL_MODE:
+           self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_LEFT_PARK,"Left Park")
 
-
-#***************************************************************************************
-
-    def centerHomeHandler(self):
-
-       self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_CENTER_HOME,"Center Home")
 
 #***************************************************************************************
 
-    def rightHomeHandler(self):
+    def centerParkHandler(self):
 
-       self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_RIGHT_HOME,"Right Home")
+       if self.mode == controllerMsgs.TX_MSG_SET_MANUAL_MODE:
+           self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_CENTER_PARK,"Center Park")
+
+#***************************************************************************************
+
+    def rightParkHandler(self):
+
+       if self.mode == controllerMsgs.TX_MSG_SET_MANUAL_MODE:
+           self.__sendControllerMsg(controllerMsgs.TX_MSG_MANUAL_CONTROL_RIGHT_PARK,"Right Park")
 
 #***************************************************************************************
 
