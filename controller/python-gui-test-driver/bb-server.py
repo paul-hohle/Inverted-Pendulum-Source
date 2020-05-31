@@ -89,6 +89,11 @@ def handle_center_park_msg(packet):
     print ("Center park")
     return False
 
+def handle_jog_size_msg(packet):
+
+    print ("Right park")
+    return False
+
 def handle_right_park_msg(packet):
 
     print ("Right park")
@@ -112,6 +117,7 @@ messages = { Msg.TX_MSG_SET_IDLE_MODE              : handle_idle_mode_msg,
              Msg.TX_MSG_SET_COMM_TEST_MODE         : handle_comm_test_mode_msg,
              Msg.TX_MSG_USE_ROTARY_ENCODER         : handle_rotary_encoder_msg,
              Msg.TX_MSG_USE_ACCELEROMETER          : handle_accelerometer_msg,
+             Msg.TX_MSG_MANUAL_CONTROL_JOG_SIZE    : handle_jog_size_msg,
              Msg.TX_MSG_MANUAL_CONTROL_JOG_RIGHT   : handle_jog_right_msg,
              Msg.TX_MSG_MANUAL_CONTROL_JOG_LEFT    : handle_jog_left_msg,
              Msg.TX_MSG_MANUAL_CONTROL_LEFT_PARK   : handle_left_park_msg,
