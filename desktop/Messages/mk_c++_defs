@@ -1,0 +1,1 @@
+cat controllerMsgs.py | sed 's/^TX/#define TX/g' | sed 's/=//g' > controllerMsgs.hpp
