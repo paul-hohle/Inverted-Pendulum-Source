@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.5
+#!/dthusr/bin/env python3.5
 
 
 #********************************************************************************************************
@@ -508,8 +508,10 @@ class WidgetGallery(QDialog):
         ms100 = [1,2,3,4,5,6,7,8,9,10]
         mm    = [30,32,34,32,33,31,29,32,35,45]
 
+        pen = pg.mkPen(color=(255, 0, 0),width=2)
         self.graphXWidget.setBackground('w')
-        self.graphXWidget.plot(ms100, mm)
+
+        self.sliderPlotUpdate = self.graphXWidget.plot(ms100, mm,pen=pen)
 
 
 #***************************************************************************************
@@ -529,8 +531,11 @@ class WidgetGallery(QDialog):
         ms100   = [1,2,3,4,5,6,7,8,9,10]
         degrees = [0,1,2,1,0,-1,-2,-3,-2,-1]
 
+
+        pen = pg.mkPen(color=(255, 0, 0),width=2)
         self.graphAngleWidget.setBackground('w')
-        self.graphAngleWidget.plot(ms100, degrees)
+
+        self.anglePlotUpdate = self.graphAngleWidget.plot(ms100, degrees,pen=pen)
 
 #***************************************************************************************
 
