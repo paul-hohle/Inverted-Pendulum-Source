@@ -1,10 +1,10 @@
 #!/usr/bin/env python3.5
 
 
-
 #********************************************************************************************************
 
 from PyQt5 import QtGui
+from PyQt5 import QtWidgets
 
 #********************************************************************************************************
 
@@ -39,6 +39,9 @@ from PyQt5.QtWidgets import QRadioButton
 from PyQt5.QtWidgets import QScrollBar
 from PyQt5.QtWidgets import QSizePolicy
 from PyQt5.QtWidgets import QInputDialog
+
+import pyqtgraph as pg
+from pyqtgraph import PlotWidget, plot
 
 #********************************************************************************************************
 
@@ -76,8 +79,8 @@ class WidgetGallery(QDialog):
         host = "192.168.6.2"
         port = 6666
 
-        self.sock = socket.socket()
-        self.sock.connect((host,port))
+#        self.sock = socket.socket()
+#        self.sock.connect((host,port))
 
         self.originalPalette = QApplication.palette()
 
@@ -93,13 +96,15 @@ class WidgetGallery(QDialog):
         self.__createManualGroupBox()
         self.__createPIDGroupBox()
         self.__createAngleSensorGroupBox()
+        self.__createSliderPlotGroupBox()
+        self.__createAnglePlotGroupBox()
 
         topLayout = QHBoxLayout()
         topLayout.addStretch(1)
 
         mainLayout = QGridLayout()
 
-        mainLayout.addLayout(topLayout, 0, 0, 1, 2)
+        mainLayout.addLayout(topLayout, 0, 0, 1, 3)
 
         mainLayout.addWidget(self.modeGroupBox, 1, 0)
         mainLayout.addWidget(self.manualGroupBox, 1, 1)
@@ -107,6 +112,8 @@ class WidgetGallery(QDialog):
         mainLayout.addWidget(self.outgoingGroupBox, 2, 1)
         mainLayout.addWidget(self.PIDGroupBox, 1, 2)
         mainLayout.addWidget(self.angleSensorGroupBox, 2, 2)
+        mainLayout.addWidget(self.anglePlotGroupBox, 2, 3)
+        mainLayout.addWidget(self.xPlotGroupBox, 1, 3)
 
         mainLayout.setRowStretch(1, 1)
         mainLayout.setRowStretch(2, 1)
@@ -171,7 +178,7 @@ class WidgetGallery(QDialog):
            packet = [message,dummy,dummy,dummy,dummy]
 
 
-        self.sock.send(msgpack.packb(packet))
+#        self.sock.send(msgpack.packb(packet))
 
 
 #********************************************************************************************************
@@ -353,13 +360,14 @@ class WidgetGallery(QDialog):
 
         if radio.isChecked():
 
-           new_mode = mode_messages.get(radio.text())
+           msg = mode_messages.get(radio.text())
 
-           if new_mode != None:
-              self.mode = new_mode
-              self.__sendControllerMsg(new_mode,radio.text())
-           else: 
+           if msg == None:
               print("Undefined mode message string: " + radio.text())
+
+           else: 
+              self.mode = msg
+              self.__sendControllerMsg(msg,radio.text())
  
            
 
@@ -468,6 +476,7 @@ class WidgetGallery(QDialog):
         self.incomingGroupBox.setLayout(layout)    
 
 
+
 #***************************************************************************************
 
     def __createOutgoingGroupBox(self):
@@ -482,9 +491,48 @@ class WidgetGallery(QDialog):
 
         self.outgoingGroupBox.setLayout(layout)
 
+#***************************************************************************************
+
+    def __createSliderPlotGroupBox(self):
+
+        self.xPlotGroupBox = QGroupBox("Slide Position (mm)")
+
+        self.graphXWidget = pg.PlotWidget()
+
+        layout = QVBoxLayout()
+
+        layout.addWidget(self.graphXWidget)
+
+        self.xPlotGroupBox.setLayout(layout)
+
+        ms100 = [1,2,3,4,5,6,7,8,9,10]
+        mm    = [30,32,34,32,33,31,29,32,35,45]
+
+        self.graphXWidget.setBackground('w')
+        self.graphXWidget.plot(ms100, mm)
 
 
-    #***************************************************************************************
+#***************************************************************************************
+
+    def __createAnglePlotGroupBox(self):
+
+        self.anglePlotGroupBox = QGroupBox("Pendulum Angle (Degrees)")
+
+        self.graphAngleWidget = pg.PlotWidget()
+
+        layout = QVBoxLayout()
+
+        layout.addWidget(self.graphAngleWidget)
+
+        self.anglePlotGroupBox.setLayout(layout)
+
+        ms100   = [1,2,3,4,5,6,7,8,9,10]
+        degrees = [0,1,2,1,0,-1,-2,-3,-2,-1]
+
+        self.graphAngleWidget.setBackground('w')
+        self.graphAngleWidget.plot(ms100, degrees)
+
+#***************************************************************************************
 
 
 if __name__ == '__main__':
