@@ -509,7 +509,7 @@ class WidgetGallery(QDialog):
 
     def __createSliderPlotGroupBox(self):
 
-        self.xPlotGroupBox = QGroupBox("Slide Position (mm)")
+        self.xPlotGroupBox = QGroupBox("Slide Position")
 
         self.xPlotGroupBox.setAlignment(Qt.AlignCenter)
 
@@ -529,6 +529,9 @@ class WidgetGallery(QDialog):
 
         self.graphXWidget.setYRange(-750, 750, padding=0)
 
+        self.graphXWidget.setLabel('left', 'Distance from Center (mm)', color='red', size=30)
+        self.graphXWidget.setLabel('bottom', 'Time (ms)', color='red', size=30)
+
         self.sliderPlotUpdate = self.graphXWidget.plot(ms100, mm,pen=pen)
 
 
@@ -536,7 +539,7 @@ class WidgetGallery(QDialog):
 
     def __createAnglePlotGroupBox(self):
 
-        self.anglePlotGroupBox = QGroupBox("Pendulum Angle (Degrees)")
+        self.anglePlotGroupBox = QGroupBox("Angular Deviation")
 
         self.anglePlotGroupBox.setAlignment(Qt.AlignCenter)
 
@@ -556,6 +559,9 @@ class WidgetGallery(QDialog):
         self.graphAngleWidget.setBackground('w')
 
         self.graphAngleWidget.setYRange(-180, 180, padding=0)
+
+        self.graphAngleWidget.setLabel('left', 'Deviation from Vertical (Degrees)', color='red', size=30)
+        self.graphAngleWidget.setLabel('bottom', 'Time (ms)', color='red', size=30)
 
         self.anglePlotUpdate = self.graphAngleWidget.plot(ms100, degrees,pen=pen)
 
