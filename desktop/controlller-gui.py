@@ -76,11 +76,13 @@ class WidgetGallery(QDialog):
 
         super(WidgetGallery, self).__init__(parent)
 
-        host = "192.168.6.2"
-        port = 6666
+        self.online = False
 
-#        self.sock = socket.socket()
-#        self.sock.connect((host,port))
+        if self.online == True:
+           host      = "192.168.6.2"
+           port      = 6666
+           self.sock = socket.socket()
+           self.sock.connect((host,port))
 
         self.originalPalette = QApplication.palette()
 
@@ -178,14 +180,15 @@ class WidgetGallery(QDialog):
            packet = [message,dummy,dummy,dummy,dummy]
 
 
-#        self.sock.send(msgpack.packb(packet))
+        if self.online == True:
+           self.sock.send(msgpack.packb(packet))
 
 
 #********************************************************************************************************
 
     def __updatePID(self):
 
-        self.__sendControllerMsg(TX_MSG_SEND_PID,"Send PID Data",self.proportional,self.integral, self.derivitive, self.gain)
+        self.__sendControllerMsg(controllerMsgs.TX_MSG_SEND_PID,"Send PID Data",self.proportional,self.integral, self.derivitive, self.gain)
 
 #********************************************************************************************************
 
