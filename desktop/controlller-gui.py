@@ -124,7 +124,8 @@ class WidgetGallery(QDialog):
 
         self.setLayout(mainLayout)
 
-        self.setWindowTitle("                                Inverted Pendulum Controller")
+        self.setWindowTitle("Inverted Pendulum Controller")
+
         self.__changeStyle('Fusion')
 
         self.gain         = 1.0
@@ -202,6 +203,7 @@ class WidgetGallery(QDialog):
 
         self.PIDGroupBox = QGroupBox("PID")
 
+        self.PIDGroupBox.setAlignment(Qt.AlignCenter)
 
         proportionalButton = QPushButton('Edit Proportional', self)
         proportionalButton.clicked.connect(self.showProportionalDialog)
@@ -286,6 +288,7 @@ class WidgetGallery(QDialog):
 
         self.angleSensorGroupBox = QGroupBox("Pendulum Angle Sensor")
 
+        self.angleSensorGroupBox.setAlignment(Qt.AlignCenter)
 
         accelerometerRadioButton = QRadioButton("Accelerometer")
         rotaryEncoderRadioButton = QRadioButton("Rotary Encoder")
@@ -311,6 +314,8 @@ class WidgetGallery(QDialog):
     def __createModeGroupBox(self):
 
         self.modeGroupBox = QGroupBox("Mode")
+
+        self.modeGroupBox.setAlignment(Qt.AlignCenter)
 
         idleRadioButton            = QRadioButton("Idle")
         manualRadioButton          = QRadioButton("Manual")
@@ -379,6 +384,8 @@ class WidgetGallery(QDialog):
     def __createManualGroupBox(self):
 
         self.manualGroupBox = QGroupBox("Manual Controls")
+
+        self.manualGroupBox.setAlignment(Qt.AlignCenter)
 
         leftParkPushButton = QPushButton("Left Park")
         leftParkPushButton.setCheckable(True)
@@ -470,6 +477,8 @@ class WidgetGallery(QDialog):
 
         self.incomingGroupBox = QGroupBox("Incoming Messages")
 
+        self.incomingGroupBox.setAlignment(Qt.AlignCenter)
+
         self.incoming = QTextEdit()
 
         layout = QVBoxLayout()
@@ -486,6 +495,8 @@ class WidgetGallery(QDialog):
 
         self.outgoingGroupBox = QGroupBox("Outgoing Messages")
 
+        self.outgoingGroupBox.setAlignment(Qt.AlignCenter)
+
         self.outgoing = QTextEdit()
 
         layout = QVBoxLayout()
@@ -499,6 +510,8 @@ class WidgetGallery(QDialog):
     def __createSliderPlotGroupBox(self):
 
         self.xPlotGroupBox = QGroupBox("Slide Position (mm)")
+
+        self.xPlotGroupBox.setAlignment(Qt.AlignCenter)
 
         self.graphXWidget = pg.PlotWidget()
 
@@ -522,6 +535,8 @@ class WidgetGallery(QDialog):
     def __createAnglePlotGroupBox(self):
 
         self.anglePlotGroupBox = QGroupBox("Pendulum Angle (Degrees)")
+
+        self.anglePlotGroupBox.setAlignment(Qt.AlignCenter)
 
         self.graphAngleWidget = pg.PlotWidget()
 
