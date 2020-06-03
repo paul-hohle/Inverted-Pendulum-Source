@@ -527,6 +527,8 @@ class WidgetGallery(QDialog):
         pen = pg.mkPen(color=(255, 0, 0),width=2)
         self.graphXWidget.setBackground('w')
 
+        self.graphXWidget.setYRange(-750, 750, padding=0)
+
         self.sliderPlotUpdate = self.graphXWidget.plot(ms100, mm,pen=pen)
 
 
@@ -552,6 +554,8 @@ class WidgetGallery(QDialog):
 
         pen = pg.mkPen(color=(255, 0, 0),width=2)
         self.graphAngleWidget.setBackground('w')
+
+        self.graphAngleWidget.setYRange(-180, 180, padding=0)
 
         self.anglePlotUpdate = self.graphAngleWidget.plot(ms100, degrees,pen=pen)
 
