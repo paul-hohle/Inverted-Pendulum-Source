@@ -5,6 +5,7 @@
 
 from PyQt5 import QtGui
 from PyQt5 import QtWidgets
+from PyQt5 import QtCore
 
 #********************************************************************************************************
 
@@ -48,6 +49,7 @@ from pyqtgraph import PlotWidget, plot
 import msgpack
 import socket
 from Messages import controllerMsgs
+from random import randint
 
 #********************************************************************************************************
 
@@ -76,9 +78,9 @@ class WidgetGallery(QDialog):
 
         super(WidgetGallery, self).__init__(parent)
 
-        self.online = False
+        self.simulate = True
 
-        if self.online == True:
+        if self.simulate == False:
            host      = "192.168.6.2"
            port      = 6666
            self.sock = socket.socket()
@@ -135,7 +137,21 @@ class WidgetGallery(QDialog):
         self.jog          = 2.0
         self.mode         = controllerMsgs.TX_MSG_SET_IDLE_MODE
 
+        if self.simulate == True:
+           self.timer = QtCore.QTimer()
+           self.timer.setInterval(50)
+           self.timer.timeout.connect(self.update_plot_data)
+           self.ticks = 0
+           self.timer.start()
 
+
+
+#********************************************************************************************************
+
+    def update_plot_data(self):
+        self.ticks += 1
+        if (self.ticks % 20) == 0:
+           print("20 ticks")
 
 #********************************************************************************************************
 
@@ -181,7 +197,7 @@ class WidgetGallery(QDialog):
            packet = [message,dummy,dummy,dummy,dummy]
 
 
-        if self.online == True:
+        if self.simulate == False:
            self.sock.send(msgpack.packb(packet))
 
 
@@ -521,8 +537,8 @@ class WidgetGallery(QDialog):
 
         self.xPlotGroupBox.setLayout(layout)
 
-        ms100 = [1,2,3,4,5,6,7,8,9,10]
-        mm    = [30,32,34,32,33,31,29,32,35,45]
+        self.sliderX = list(range(100))  # 100 time points
+        self.sliderY = [randint(0,100) for _ in range(100)]  # 100 data poi
 
         pen = pg.mkPen(color=(255, 0, 0),width=2)
         self.graphXWidget.setBackground('w')
@@ -532,7 +548,7 @@ class WidgetGallery(QDialog):
         self.graphXWidget.setLabel('left', 'Distance from Center (mm)', color='red', size=30)
         self.graphXWidget.setLabel('bottom', 'Time (ms)', color='red', size=30)
 
-        self.sliderPlotUpdate = self.graphXWidget.plot(ms100, mm,pen=pen)
+        self.sliderPlotUpdate = self.graphXWidget.plot(self.sliderX, self.sliderY,pen=pen)
 
 
 #***************************************************************************************
@@ -551,9 +567,8 @@ class WidgetGallery(QDialog):
 
         self.anglePlotGroupBox.setLayout(layout)
 
-        ms100   = [1,2,3,4,5,6,7,8,9,10]
-        degrees = [0,1,2,1,0,-1,-2,-3,-2,-1]
-
+        self.angleX = list(range(100))  # 100 time points
+        self.angleY = [randint(-180,180) for _ in range(100)]  # 100 data poi
 
         pen = pg.mkPen(color=(255, 0, 0),width=2)
         self.graphAngleWidget.setBackground('w')
@@ -563,7 +578,7 @@ class WidgetGallery(QDialog):
         self.graphAngleWidget.setLabel('left', 'Deviation from Vertical (Degrees)', color='red', size=30)
         self.graphAngleWidget.setLabel('bottom', 'Time (ms)', color='red', size=30)
 
-        self.anglePlotUpdate = self.graphAngleWidget.plot(ms100, degrees,pen=pen)
+        self.anglePlotUpdate = self.graphAngleWidget.plot(self.angleX, self.angleY,pen=pen)
 
 #***************************************************************************************
 
