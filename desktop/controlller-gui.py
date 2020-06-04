@@ -78,13 +78,14 @@ class WidgetGallery(QDialog):
 
         super(WidgetGallery, self).__init__(parent)
 
-        self.interval = 50
-        self.simulate = True
+        self.interval     = 50
+        self.simulate     = True
         self.gain         = 1.0
         self.proportional = 2.0
         self.integral     = 3.0
         self.derivitive   = 4.0
         self.jog          = 2.0
+        self.buffer_size  = 100
         self.mode         = controllerMsgs.TX_MSG_SET_IDLE_MODE
 
         self.originalPalette = QApplication.palette()
@@ -131,7 +132,6 @@ class WidgetGallery(QDialog):
 
         self.__changeStyle('Fusion')
 
-
         if self.simulate == True:
            self.timer = QtCore.QTimer()
            self.ticks = 0
@@ -144,8 +144,6 @@ class WidgetGallery(QDialog):
            self.sock = socket.socket()
            self.sock.connect((host,port))
 
-
-
 #********************************************************************************************************
 
     def update_plot_data(self):
@@ -155,14 +153,14 @@ class WidgetGallery(QDialog):
         self.angleX.append(new) 
 
         self.angleY = self.angleY[1:] 
-        self.angleY.append( randint(0,100))  
+        self.angleY.append( randint(0,self.buffer_size))  
 
         self.sliderX = self.sliderX[1:]  
         new = self.sliderX[-1] + self.interval
         self.sliderX.append(new) 
 
         self.sliderY = self.sliderY[1:] 
-        self.sliderY.append( randint(0,100))  
+        self.sliderY.append( randint(0,self.buffer_size))  
 
         self.anglePlotUpdate.setData(self.angleX, self.angleY) 
         self.sliderPlotUpdate.setData(self.sliderX,self.sliderY)
@@ -551,8 +549,8 @@ class WidgetGallery(QDialog):
 
         self.xPlotGroupBox.setLayout(layout)
 
-        self.sliderX = list(range(0,100*self.interval,self.interval))  # 100 time points
-        self.sliderY = [randint(0,100) for _ in range(0,100*self.interval,self.interval)]  # 100 data poi
+        self.sliderX = list(range(0,self.buffer_size*self.interval,self.interval))  
+        self.sliderY = [randint(0,self.buffer_size) for _ in range(0,self.buffer_size*self.interval,self.interval)] 
 
         pen = pg.mkPen(color=(255, 0, 0),width=2)
         self.graphXWidget.setBackground('w')
@@ -581,8 +579,8 @@ class WidgetGallery(QDialog):
 
         self.anglePlotGroupBox.setLayout(layout)
 
-        self.angleX = list(range(0,100*self.interval,self.interval))  # 100 time points
-        self.angleY = [randint(-180,180) for _ in range(0,100*self.interval,self.interval)]  # 100 data poi
+        self.angleX = list(range(0,self.buffer_size*self.interval,self.interval))  
+        self.angleY = [randint(-180,180) for _ in range(0,self.buffer_size*self.interval,self.interval)]  
 
         pen = pg.mkPen(color=(255, 0, 0),width=2)
         self.graphAngleWidget.setBackground('w')
