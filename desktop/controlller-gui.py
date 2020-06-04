@@ -80,11 +80,6 @@ class WidgetGallery(QDialog):
 
         self.simulate = True
 
-        if self.simulate == False:
-           host      = "192.168.6.2"
-           port      = 6666
-           self.sock = socket.socket()
-           self.sock.connect((host,port))
 
         self.originalPalette = QApplication.palette()
 
@@ -143,6 +138,11 @@ class WidgetGallery(QDialog):
            self.timer.timeout.connect(self.update_plot_data)
            self.ticks = 0
            self.timer.start()
+        else:
+           host      = "192.168.6.2"
+           port      = 6666
+           self.sock = socket.socket()
+           self.sock.connect((host,port))
 
 
 
