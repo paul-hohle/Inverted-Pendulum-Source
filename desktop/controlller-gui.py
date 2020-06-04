@@ -85,7 +85,7 @@ class WidgetGallery(QDialog):
         self.integral     = 3.0
         self.derivitive   = 4.0
         self.jog          = 2.0
-        self.buffer_size  = 100
+        self.buffer_size  = 200
         self.mode         = controllerMsgs.TX_MSG_SET_IDLE_MODE
 
         self.originalPalette = QApplication.palette()
