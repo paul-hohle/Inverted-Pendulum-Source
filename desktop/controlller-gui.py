@@ -41,6 +41,8 @@ from PyQt5.QtWidgets import QScrollBar
 from PyQt5.QtWidgets import QSizePolicy
 from PyQt5.QtWidgets import QInputDialog
 
+#********************************************************************************************************
+
 import pyqtgraph as pg
 from pyqtgraph import PlotWidget, plot
 
@@ -50,9 +52,10 @@ import msgpack
 import socket
 from Messages import controllerMsgs
 from random import randint
+import sys
+import asyncio
 
 #********************************************************************************************************
-
 
 mode_messages = { 'Idle'                   : controllerMsgs.TX_MSG_SET_IDLE_MODE,
                   'Manual'                 : controllerMsgs.TX_MSG_SET_MANUAL_MODE,
@@ -78,6 +81,8 @@ class WidgetGallery(QDialog):
 
         super(WidgetGallery, self).__init__(parent)
 
+        self.host         = "192.168.6.2"
+        self.port         = 6666
         self.interval     = 50
         self.simulate     = True
         self.gain         = 1.0
@@ -138,10 +143,8 @@ class WidgetGallery(QDialog):
            self.timer.timeout.connect(self.update_plot_data)
            self.timer.start()
         else:
-           host      = "192.168.6.2"
-           port      = 6666
            self.sock = socket.socket()
-           self.sock.connect((host,port))
+           self.sock.connect((self.host,self.port))
 
 #********************************************************************************************************
 
@@ -587,11 +590,6 @@ class WidgetGallery(QDialog):
 
 
 if __name__ == '__main__':
-
-    import sys
-    import asyncio
-
-
 
 
     app = QApplication(sys.argv)
