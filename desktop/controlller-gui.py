@@ -80,7 +80,12 @@ class WidgetGallery(QDialog):
 
         self.interval = 50
         self.simulate = True
-
+        self.gain         = 1.0
+        self.proportional = 2.0
+        self.integral     = 3.0
+        self.derivitive   = 4.0
+        self.jog          = 2.0
+        self.mode         = controllerMsgs.TX_MSG_SET_IDLE_MODE
 
         self.originalPalette = QApplication.palette()
 
@@ -126,18 +131,12 @@ class WidgetGallery(QDialog):
 
         self.__changeStyle('Fusion')
 
-        self.gain         = 1.0
-        self.proportional = 2.0
-        self.integral     = 3.0
-        self.derivitive   = 4.0
-        self.jog          = 2.0
-        self.mode         = controllerMsgs.TX_MSG_SET_IDLE_MODE
 
         if self.simulate == True:
            self.timer = QtCore.QTimer()
+           self.ticks = 0
            self.timer.setInterval(self.interval)
            self.timer.timeout.connect(self.update_plot_data)
-           self.ticks = 0
            self.timer.start()
         else:
            host      = "192.168.6.2"
