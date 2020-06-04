@@ -134,7 +134,6 @@ class WidgetGallery(QDialog):
 
         if self.simulate == True:
            self.timer = QtCore.QTimer()
-           self.ticks = 0
            self.timer.setInterval(self.interval)
            self.timer.timeout.connect(self.update_plot_data)
            self.timer.start()
@@ -148,16 +147,8 @@ class WidgetGallery(QDialog):
 
     def update_plot_data(self):
 
-        self.angleX = self.angleX[1:]  
-        new = self.angleX[-1] + self.interval
-        self.angleX.append(new) 
-
         self.angleY = self.angleY[1:] 
         self.angleY.append( randint(0,self.buffer_size))  
-
-        self.sliderX = self.sliderX[1:]  
-        new = self.sliderX[-1] + self.interval
-        self.sliderX.append(new) 
 
         self.sliderY = self.sliderY[1:] 
         self.sliderY.append( randint(0,self.buffer_size))  
@@ -558,7 +549,7 @@ class WidgetGallery(QDialog):
         self.graphXWidget.setYRange(-750, 750, padding=0)
 
         self.graphXWidget.setLabel('left', 'Distance from Center (mm)', color='red', size=30)
-        self.graphXWidget.setLabel('bottom', 'Time (ms)', color='red', size=30)
+        self.graphXWidget.setLabel('bottom', 'Relative Time (ms)', color='red', size=30)
 
         self.sliderPlotUpdate = self.graphXWidget.plot(self.sliderX, self.sliderY,pen=pen)
 
@@ -588,7 +579,7 @@ class WidgetGallery(QDialog):
         self.graphAngleWidget.setYRange(-180, 180, padding=0)
 
         self.graphAngleWidget.setLabel('left', 'Deviation from Vertical (Degrees)', color='red', size=30)
-        self.graphAngleWidget.setLabel('bottom', 'Time (ms)', color='red', size=30)
+        self.graphAngleWidget.setLabel('bottom', 'Relative Time (ms)', color='red', size=30)
 
         self.anglePlotUpdate = self.graphAngleWidget.plot(self.angleX, self.angleY,pen=pen)
 
