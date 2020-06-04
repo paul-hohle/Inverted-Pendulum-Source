@@ -78,6 +78,7 @@ class WidgetGallery(QDialog):
 
         super(WidgetGallery, self).__init__(parent)
 
+        self.interval = 50
         self.simulate = True
 
 
@@ -134,7 +135,7 @@ class WidgetGallery(QDialog):
 
         if self.simulate == True:
            self.timer = QtCore.QTimer()
-           self.timer.setInterval(50)
+           self.timer.setInterval(self.interval)
            self.timer.timeout.connect(self.update_plot_data)
            self.ticks = 0
            self.timer.start()
@@ -149,9 +150,23 @@ class WidgetGallery(QDialog):
 #********************************************************************************************************
 
     def update_plot_data(self):
-        self.ticks += 1
-        if (self.ticks % 20) == 0:
-           print("20 ticks")
+
+        self.angleX = self.angleX[1:]  
+        new = self.angleX[-1] + self.interval
+        self.angleX.append(new) 
+
+        self.angleY = self.angleY[1:] 
+        self.angleY.append( randint(0,100))  
+
+        self.sliderX = self.sliderX[1:]  
+        new = self.sliderX[-1] + self.interval
+        self.sliderX.append(new) 
+
+        self.sliderY = self.sliderY[1:] 
+        self.sliderY.append( randint(0,100))  
+
+        self.anglePlotUpdate.setData(self.angleX, self.angleY) 
+        self.sliderPlotUpdate.setData(self.sliderX,self.sliderY)
 
 #********************************************************************************************************
 
@@ -537,8 +552,8 @@ class WidgetGallery(QDialog):
 
         self.xPlotGroupBox.setLayout(layout)
 
-        self.sliderX = list(range(100))  # 100 time points
-        self.sliderY = [randint(0,100) for _ in range(100)]  # 100 data poi
+        self.sliderX = list(range(0,100*self.interval,self.interval))  # 100 time points
+        self.sliderY = [randint(0,100) for _ in range(0,100*self.interval,self.interval)]  # 100 data poi
 
         pen = pg.mkPen(color=(255, 0, 0),width=2)
         self.graphXWidget.setBackground('w')
@@ -567,8 +582,8 @@ class WidgetGallery(QDialog):
 
         self.anglePlotGroupBox.setLayout(layout)
 
-        self.angleX = list(range(100))  # 100 time points
-        self.angleY = [randint(-180,180) for _ in range(100)]  # 100 data poi
+        self.angleX = list(range(0,100*self.interval,self.interval))  # 100 time points
+        self.angleY = [randint(-180,180) for _ in range(0,100*self.interval,self.interval)]  # 100 data poi
 
         pen = pg.mkPen(color=(255, 0, 0),width=2)
         self.graphAngleWidget.setBackground('w')
