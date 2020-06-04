@@ -540,7 +540,7 @@ class WidgetGallery(QDialog):
 
         self.xPlotGroupBox.setLayout(layout)
 
-        self.sliderX = list(range(0,self.buffer_size*self.interval,self.interval))  
+        self.sliderX = list(range(-self.buffer_size*self.interval,0,self.interval))  
         self.sliderY = [randint(0,self.buffer_size) for _ in range(0,self.buffer_size*self.interval,self.interval)] 
 
         pen = pg.mkPen(color=(255, 0, 0),width=2)
@@ -570,7 +570,7 @@ class WidgetGallery(QDialog):
 
         self.anglePlotGroupBox.setLayout(layout)
 
-        self.angleX = list(range(0,self.buffer_size*self.interval,self.interval))  
+        self.angleX = list(range(-self.buffer_size*self.interval,0,self.interval))  
         self.angleY = [randint(-180,180) for _ in range(0,self.buffer_size*self.interval,self.interval)]  
 
         pen = pg.mkPen(color=(255, 0, 0),width=2)
