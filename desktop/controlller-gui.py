@@ -318,8 +318,11 @@ class WidgetGallery(QDialog):
         rotaryEncoderRadioButton = QRadioButton("Rotary Encoder")
 
 
-        accelerometerRadioButton.toggled.connect(lambda:self.angleSensorRadioButtonHandler(accelerometerRadioButton))
-        rotaryEncoderRadioButton.toggled.connect(lambda:self.angleSensorRadioButtonHandler(rotaryEncoderRadioButton))
+        actor = lambda:self.angleSensorRadioButtonHandler(accelerometerRadioButton)
+        accelerometerRadioButton.toggled.connect(actor)
+
+        actor = lambda:self.angleSensorRadioButtonHandler(rotaryEncoderRadioButton)
+        rotaryEncoderRadioButton.toggled.connect(actor)
 
         rotaryEncoderRadioButton.setChecked(True)
 
@@ -353,17 +356,38 @@ class WidgetGallery(QDialog):
         windupRadioButton          = QRadioButton("Windup Test")
         commTestRadioButton        = QRadioButton("Communications Test")
 
-        idleRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(idleRadioButton))
-        manualRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(manualRadioButton))
-        pidRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(pidRadioButton))
-        stateSpaceRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(stateSpaceRadioButton))
-        aiRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(aiRadioButton))
-        periodRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(periodRadioButton))
-        pendulumLengthRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(pendulumLengthRadioButton))
-        railLengthRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(railLengthRadioButton))
-        centerRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(centerRadioButton))
-        windupRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(windupRadioButton))
-        commTestRadioButton.toggled.connect(lambda:self.modeRadioButtonHandler(commTestRadioButton))
+        actor = lambda:self.modeRadioButtonHandler(idleRadioButton)
+        idleRadioButton.toggled.connect(actor)
+
+        actor = lambda:self.modeRadioButtonHandler(manualRadioButton)
+        manualRadioButton.toggled.connect(actor)
+
+        actor = lambda:self.modeRadioButtonHandler(pidRadioButton)
+        pidRadioButton.toggled.connect(actor)
+
+        actor = lambda:self.modeRadioButtonHandler(stateSpaceRadioButton)
+        stateSpaceRadioButton.toggled.connect(actor)
+
+        actor = lambda:self.modeRadioButtonHandler(aiRadioButton)
+        aiRadioButton.toggled.connect(actor)
+
+        actor = lambda:self.modeRadioButtonHandler(periodRadioButton)
+        periodRadioButton.toggled.connect(actor)
+
+        actor = lambda:self.modeRadioButtonHandler(pendulumLengthRadioButton)
+        pendulumLengthRadioButton.toggled.connect(actor)
+
+        actor = lambda:self.modeRadioButtonHandler(railLengthRadioButton)
+        railLengthRadioButton.toggled.connect(actor)
+
+        actor = lambda:self.modeRadioButtonHandler(centerRadioButton)
+        centerRadioButton.toggled.connect(actor)
+
+        actor = lambda:self.modeRadioButtonHandler(windupRadioButton)
+        windupRadioButton.toggled.connect(actor)
+
+        actor = lambda:self.modeRadioButtonHandler(commTestRadioButton)
+        commTestRadioButton.toggled.connect(actor)
 
         idleRadioButton.setChecked(True)
 
