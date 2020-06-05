@@ -61,6 +61,7 @@ mode_messages = { 'Idle'                   : controllerMsgs.TX_MSG_SET_IDLE_MODE
                   'Manual'                 : controllerMsgs.TX_MSG_SET_MANUAL_MODE,
                   'PID Controller'         : controllerMsgs.TX_MSG_SET_PID_MODE,
                   'State Space Controller' : controllerMsgs.TX_MSG_SET_STATE_SPACE_MODE,
+                  'Fuzzy Logic Controller' : controllerMsgs.TX_MSG_SET_FUZZY_LOGIC_MODE,
                   'AI Controller'          : controllerMsgs.TX_MSG_SET_AI_MODE,
                   'Pendulum Period Test'   : controllerMsgs.TX_MSG_SET_PENDULUM_PERIOD_MODE,
                   'Pendulum Length Test'   : controllerMsgs.TX_MSG_SET_PENDULUM_LENGTH_MODE,
@@ -81,16 +82,17 @@ class WidgetGallery(QDialog):
 
         super(WidgetGallery, self).__init__(parent)
 
+        self.simulate     = True
         self.host         = "192.168.6.2"
         self.port         = 6666
         self.interval     = 50
-        self.simulate     = True
         self.gain         = 1.0
         self.proportional = 2.0
         self.integral     = 3.0
         self.derivitive   = 4.0
         self.jog          = 2.0
         self.buffer_size  = 200
+        self.plot_width   = 1
         self.mode         = controllerMsgs.TX_MSG_SET_IDLE_MODE
 
         self.originalPalette = QApplication.palette()
@@ -140,7 +142,7 @@ class WidgetGallery(QDialog):
         if self.simulate == True:
            self.timer = QtCore.QTimer()
            self.timer.setInterval(self.interval)
-           self.timer.timeout.connect(self.update_plot_data)
+           self.timer.timeout.connect(self.update_plots)
            self.timer.start()
         else:
            self.sock = socket.socket()
@@ -148,7 +150,7 @@ class WidgetGallery(QDialog):
 
 #********************************************************************************************************
 
-    def update_plot_data(self):
+    def update_plots(self):
 
         self.angleY = self.angleY[1:] 
         self.angleY.append( randint(0,self.buffer_size))  
@@ -546,7 +548,7 @@ class WidgetGallery(QDialog):
         self.sliderX = list(range(-self.buffer_size*self.interval,0,self.interval))  
         self.sliderY = [randint(0,self.buffer_size) for _ in range(0,self.buffer_size*self.interval,self.interval)] 
 
-        pen = pg.mkPen(color=(255, 0, 0),width=2)
+        pen = pg.mkPen(color=(255, 0, 0),width=self.plot_width)
         self.graphXWidget.setBackground('w')
 
         self.graphXWidget.setYRange(-750, 750, padding=0)
@@ -576,7 +578,7 @@ class WidgetGallery(QDialog):
         self.angleX = list(range(-self.buffer_size*self.interval,0,self.interval))  
         self.angleY = [randint(-180,180) for _ in range(0,self.buffer_size*self.interval,self.interval)]  
 
-        pen = pg.mkPen(color=(255, 0, 0),width=2)
+        pen = pg.mkPen(color=(255, 0, 0),width=self.plot_width)
         self.graphAngleWidget.setBackground('w')
 
         self.graphAngleWidget.setYRange(-180, 180, padding=0)
