@@ -110,7 +110,7 @@ class WidgetGallery(QDialog):
         self.__createPIDGroupBox()
         self.__createAngleSensorGroupBox()
         self.__createSliderPlotGroupBox()
-        self.__createAnglePlotGroupBox()
+        self.__createAngularPositionPlotGroupBox()
 
         topLayout = QHBoxLayout()
         topLayout.addStretch(1)
@@ -119,14 +119,15 @@ class WidgetGallery(QDialog):
 
         mainLayout.addLayout(topLayout, 0, 0, 1, 3)
 
-        mainLayout.addWidget(self.modeGroupBox, 1, 0)
+        mainLayout.addWidget(self.modeGroupBox,   1, 0)
         mainLayout.addWidget(self.manualGroupBox, 1, 1)
-        mainLayout.addWidget(self.incomingGroupBox, 2, 0)
-        mainLayout.addWidget(self.outgoingGroupBox, 2, 1)
-        mainLayout.addWidget(self.PIDGroupBox, 1, 2)
-        mainLayout.addWidget(self.angleSensorGroupBox, 2, 2)
-        mainLayout.addWidget(self.anglePlotGroupBox, 2, 3)
-        mainLayout.addWidget(self.xPlotGroupBox, 1, 3)
+        mainLayout.addWidget(self.PIDGroupBox,    1, 2)
+        mainLayout.addWidget(self.xPlotGroupBox,  1, 3)
+
+        mainLayout.addWidget(self.incomingGroupBox,            2, 0)
+        mainLayout.addWidget(self.outgoingGroupBox,            2, 1)
+        mainLayout.addWidget(self.angleSensorGroupBox,         2, 2)
+        mainLayout.addWidget(self.angularPositionPlotGroupBox, 2, 3)
 
         mainLayout.setRowStretch(1, 1)
         mainLayout.setRowStretch(2, 1)
@@ -158,7 +159,7 @@ class WidgetGallery(QDialog):
         self.sliderY = self.sliderY[1:] 
         self.sliderY.append( randint(0,self.buffer_size))  
 
-        self.anglePlotUpdate.setData(self.angleX, self.angleY) 
+        self.angularPositionPlotUpdate.setData(self.angleX, self.angleY) 
         self.sliderPlotUpdate.setData(self.sliderX,self.sliderY)
 
 #********************************************************************************************************
@@ -585,11 +586,11 @@ class WidgetGallery(QDialog):
 
 #***************************************************************************************
 
-    def __createAnglePlotGroupBox(self):
+    def __createAngularPositionPlotGroupBox(self):
 
-        self.anglePlotGroupBox = QGroupBox("Angular Position")
+        self.angularPositionPlotGroupBox = QGroupBox("Angular Position")
 
-        self.anglePlotGroupBox.setAlignment(Qt.AlignCenter)
+        self.angularPositionPlotGroupBox.setAlignment(Qt.AlignCenter)
 
         self.graphAngleWidget = pg.PlotWidget()
 
@@ -597,7 +598,7 @@ class WidgetGallery(QDialog):
 
         layout.addWidget(self.graphAngleWidget)
 
-        self.anglePlotGroupBox.setLayout(layout)
+        self.angularPositionPlotGroupBox.setLayout(layout)
 
         self.angleX = list(range(-self.buffer_size*self.interval,0,self.interval))  
         self.angleY = [randint(-180,180) for _ in range(0,self.buffer_size*self.interval,self.interval)]  
@@ -610,7 +611,7 @@ class WidgetGallery(QDialog):
         self.graphAngleWidget.setLabel('left', 'Degrees', color='red', size=30)
         self.graphAngleWidget.setLabel('bottom', 'Milliseconds', color='red', size=30)
 
-        self.anglePlotUpdate = self.graphAngleWidget.plot(self.angleX, self.angleY,pen=pen)
+        self.angularPositionPlotUpdate = self.graphAngleWidget.plot(self.angleX, self.angleY,pen=pen)
 
 #***************************************************************************************
 
