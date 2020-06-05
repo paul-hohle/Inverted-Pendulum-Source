@@ -59,8 +59,8 @@ import asyncio
 
 mode_messages = { 'Idle'                   : controllerMsgs.TX_MSG_SET_IDLE_MODE,
                   'Manual'                 : controllerMsgs.TX_MSG_SET_MANUAL_MODE,
-                  'PID Controller'         : controllerMsgs.TX_MSG_SET_PID_MODE,
                   'State Space Controller' : controllerMsgs.TX_MSG_SET_STATE_SPACE_MODE,
+                  'PID Controller'         : controllerMsgs.TX_MSG_SET_PID_MODE,
                   'Fuzzy Logic Controller' : controllerMsgs.TX_MSG_SET_FUZZY_LOGIC_MODE,
                   'AI Controller'          : controllerMsgs.TX_MSG_SET_AI_MODE,
                   'Pendulum Period Test'   : controllerMsgs.TX_MSG_SET_PENDULUM_PERIOD_MODE,
@@ -159,23 +159,25 @@ class WidgetGallery(QDialog):
 
     def update_plots(self):
 
-        self.angularPositionY = self.angularPositionY[1:] 
-        self.angularPositionY.append( randint(0,self.buffer_size))  
+       if self.mode  == controllerMsgs.TX_MSG_SET_PID_MODE:
 
-        self.linearPositionY = self.linearPositionY[1:] 
-        self.linearPositionY.append( randint(0,self.buffer_size))  
+            self.angularPositionY = self.angularPositionY[1:] 
+            self.angularPositionY.append( randint(0,self.buffer_size))  
 
-        self.linearVelocityY = self.linearVelocityY[1:]   
-        self.linearVelocityY.append(randint(0,self.buffer_size))  
+            self.linearPositionY = self.linearPositionY[1:] 
+            self.linearPositionY.append( randint(0,self.buffer_size))  
 
-        self.angularVelocityY = self.angularVelocityY[1:]   
-        self.angularVelocityY.append(randint(0,self.buffer_size))  
+            self.linearVelocityY = self.linearVelocityY[1:]   
+            self.linearVelocityY.append(randint(0,self.buffer_size))  
 
-        self.angularPositionPlotUpdate.setData(self.angularPositionX, self.angularPositionY) 
-        self.linearPositionPlotUpdate.setData(self.linearPositionX,self.linearPositionY)
+            self.angularVelocityY = self.angularVelocityY[1:]   
+            self.angularVelocityY.append(randint(0,self.buffer_size))  
 
-        self.linearVelocityPlotUpdate.setData (self.linearVelocityX, self.linearVelocityY)
-        self.angularVelocityPlotUpdate.setData (self.angularVelocityX, self.angularVelocityY)
+            self.angularPositionPlotUpdate.setData(self.angularPositionX, self.angularPositionY) 
+            self.linearPositionPlotUpdate.setData(self.linearPositionX,self.linearPositionY)
+
+            self.linearVelocityPlotUpdate.setData (self.linearVelocityX, self.linearVelocityY)
+            self.angularVelocityPlotUpdate.setData (self.angularVelocityX, self.angularVelocityY)
 
 #********************************************************************************************************
 
