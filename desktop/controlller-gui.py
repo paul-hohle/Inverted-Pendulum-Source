@@ -109,7 +109,7 @@ class WidgetGallery(QDialog):
         self.__createManualGroupBox()
         self.__createPIDGroupBox()
         self.__createAngleSensorGroupBox()
-        self.__createSliderPlotGroupBox()
+        self.__createLinearPositionPlotGroupBox()
         self.__createAngularPositionPlotGroupBox()
 
         topLayout = QHBoxLayout()
@@ -160,7 +160,7 @@ class WidgetGallery(QDialog):
         self.sliderY.append( randint(0,self.buffer_size))  
 
         self.angularPositionPlotUpdate.setData(self.angleX, self.angleY) 
-        self.sliderPlotUpdate.setData(self.sliderX,self.sliderY)
+        self.linearPositionPlotUpdate.setData(self.sliderX,self.sliderY)
 
 #********************************************************************************************************
 
@@ -556,7 +556,7 @@ class WidgetGallery(QDialog):
 
 #***************************************************************************************
 
-    def __createSliderPlotGroupBox(self):
+    def __createLinearPositionPlotGroupBox(self):
 
         self.xPlotGroupBox = QGroupBox("Linear Position")
 
@@ -581,7 +581,7 @@ class WidgetGallery(QDialog):
         self.graphXWidget.setLabel('left', 'Millimeters', color='red', size=30)
         self.graphXWidget.setLabel('bottom', 'Milliseconds', color='red', size=30)
 
-        self.sliderPlotUpdate = self.graphXWidget.plot(self.sliderX, self.sliderY,pen=pen)
+        self.linearPositionPlotUpdate = self.graphXWidget.plot(self.sliderX, self.sliderY,pen=pen)
 
 
 #***************************************************************************************
