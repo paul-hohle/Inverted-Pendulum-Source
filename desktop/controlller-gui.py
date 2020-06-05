@@ -116,30 +116,30 @@ class WidgetGallery(QDialog):
         self.__createAngularPositionPlotGroupBox()
         self.__createAngularVelocityPlotGroupBox()
 
-        topLayout = QHBoxLayout()
-        topLayout.addStretch(1)
+        top = QHBoxLayout()
+        top.addStretch(1)
 
-        mainLayout = QGridLayout()
+        main = QGridLayout()
 
-        mainLayout.addLayout(topLayout, 0, 0, 1, 3)
+        main.addLayout(top, 0, 0, 1, 3)
 
-        mainLayout.addWidget(self.modeGroupBox,                1, 0)
-        mainLayout.addWidget(self.manualGroupBox,              1, 1)
-        mainLayout.addWidget(self.PIDGroupBox,                 1, 2)
-        mainLayout.addWidget(self.linearPositionPlotGroupBox,  1, 3)
+        main.addWidget(self.modeGroupBox,                1, 0)
+        main.addWidget(self.manualGroupBox,              1, 1)
+        main.addWidget(self.PIDGroupBox,                 1, 2)
+        main.addWidget(self.linearPositionPlotGroupBox,  1, 3)
 
-        mainLayout.addWidget(self.incomingGroupBox,            2, 0)
-        mainLayout.addWidget(self.outgoingGroupBox,            2, 1)
-        mainLayout.addWidget(self.angleSensorGroupBox,         2, 2)
-        mainLayout.addWidget(self.linearVelocityPlotGroupBox,  2, 3)
-        mainLayout.addWidget(self.linearVelocityPlotGroupBox,  2, 3)
+        main.addWidget(self.incomingGroupBox,            2, 0)
+        main.addWidget(self.outgoingGroupBox,            2, 1)
+        main.addWidget(self.angleSensorGroupBox,         2, 2)
+        main.addWidget(self.linearVelocityPlotGroupBox,  2, 3)
+        main.addWidget(self.linearVelocityPlotGroupBox,  2, 3)
 
-        mainLayout.setRowStretch(1, 1)
-        mainLayout.setRowStretch(2, 1)
-        mainLayout.setColumnStretch(0, 1)
-        mainLayout.setColumnStretch(1, 1)
+        main.setRowStretch(1, 1)
+        main.setRowStretch(2, 1)
+        main.setColumnStretch(0, 1)
+        main.setColumnStretch(1, 1)
 
-        self.setLayout(mainLayout)
+        self.setLayout(main)
 
         self.setWindowTitle("Inverted Pendulum Controller")
 
@@ -172,6 +172,7 @@ class WidgetGallery(QDialog):
 
         self.angularPositionPlotUpdate.setData(self.angularPositionX, self.angularPositionY) 
         self.linearPositionPlotUpdate.setData(self.linearPositionX,self.linearPositionY)
+
         self.linearVelocityPlotUpdate.setData (self.linearVelocityX, self.linearVelocityY)
         self.angularVelocityPlotUpdate.setData (self.angularVelocityX, self.angularVelocityY)
 
@@ -464,11 +465,20 @@ class WidgetGallery(QDialog):
         jogRightPushButton = QPushButton("Jog Right")
         jogRightPushButton.setCheckable(True)
 
-        jogLeftPushButton.toggled.connect(lambda:self.jogLeftHandler())
-        jogRightPushButton.toggled.connect(lambda:self.jogRightHandler())
-        leftParkPushButton.toggled.connect(lambda:self.leftParkHandler())
-        rightParkPushButton.toggled.connect(lambda:self.rightParkHandler())
-        centerParkPushButton.toggled.connect(lambda:self.centerParkHandler())
+        actor = lambda:self.jogLeftHandler()
+        jogLeftPushButton.toggled.connect(actor)
+
+        actor = lambda:self.jogRightHandler()
+        jogRightPushButton.toggled.connect(actor)
+
+        actor = lambda:self.leftParkHandler()
+        leftParkPushButton.toggled.connect(actor)
+
+        actor = lambda:self.rightParkHandler()
+        rightParkPushButton.toggled.connect(actor)
+
+        actor = lambda:self.centerParkHandler()
+        centerParkPushButton.toggled.connect(actor)
                                                                                         
         jogSizeButton = QPushButton('Edit Jog Size', self)
         jogSizeButton.clicked.connect(self.showJogSizeDialog)
