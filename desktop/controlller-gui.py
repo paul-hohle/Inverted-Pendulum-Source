@@ -109,8 +109,12 @@ class WidgetGallery(QDialog):
         self.__createManualGroupBox()
         self.__createPIDGroupBox()
         self.__createAngleSensorGroupBox()
+
         self.__createLinearPositionPlotGroupBox()
+        self.__createLinearVelocityPlotGroupBox()
+
         self.__createAngularPositionPlotGroupBox()
+        self.__createAngularVelocityPlotGroupBox()
 
         topLayout = QHBoxLayout()
         topLayout.addStretch(1)
@@ -118,16 +122,19 @@ class WidgetGallery(QDialog):
         mainLayout = QGridLayout()
 
         mainLayout.addLayout(topLayout, 0, 0, 1, 3)
+#       mainLayout.addLayout(topLayout, 0, 0, 2, 3)
 
-        mainLayout.addWidget(self.modeGroupBox,   1, 0)
-        mainLayout.addWidget(self.manualGroupBox, 1, 1)
-        mainLayout.addWidget(self.PIDGroupBox,    1, 2)
-        mainLayout.addWidget(self.xPlotGroupBox,  1, 3)
+        mainLayout.addWidget(self.modeGroupBox,                1, 0)
+        mainLayout.addWidget(self.manualGroupBox,              1, 1)
+        mainLayout.addWidget(self.PIDGroupBox,                 1, 2)
+        mainLayout.addWidget(self.linearPositionPlotGroupBox,  1, 3)
 
         mainLayout.addWidget(self.incomingGroupBox,            2, 0)
         mainLayout.addWidget(self.outgoingGroupBox,            2, 1)
         mainLayout.addWidget(self.angleSensorGroupBox,         2, 2)
         mainLayout.addWidget(self.angularPositionPlotGroupBox, 2, 3)
+
+#        mainLayout.addWidget(self.angularVelocityPlotGroupBox, 3, 3)
 
         mainLayout.setRowStretch(1, 1)
         mainLayout.setRowStretch(2, 1)
@@ -153,14 +160,14 @@ class WidgetGallery(QDialog):
 
     def update_plots(self):
 
-        self.angleY = self.angleY[1:] 
-        self.angleY.append( randint(0,self.buffer_size))  
+        self.anglePosY = self.anglePosY[1:] 
+        self.anglePosY.append( randint(0,self.buffer_size))  
 
-        self.sliderY = self.sliderY[1:] 
-        self.sliderY.append( randint(0,self.buffer_size))  
+        self.posY = self.posY[1:] 
+        self.posY.append( randint(0,self.buffer_size))  
 
-        self.angularPositionPlotUpdate.setData(self.angleX, self.angleY) 
-        self.linearPositionPlotUpdate.setData(self.sliderX,self.sliderY)
+        self.angularPositionPlotUpdate.setData(self.anglePosX, self.anglePosY) 
+        self.linearPositionPlotUpdate.setData(self.posX,self.posY)
 
 #********************************************************************************************************
 
@@ -558,30 +565,30 @@ class WidgetGallery(QDialog):
 
     def __createLinearPositionPlotGroupBox(self):
 
-        self.xPlotGroupBox = QGroupBox("Linear Position")
+        self.linearPositionPlotGroupBox = QGroupBox("Linear Position")
 
-        self.xPlotGroupBox.setAlignment(Qt.AlignCenter)
+        self.linearPositionPlotGroupBox.setAlignment(Qt.AlignCenter)
 
-        self.graphXWidget = pg.PlotWidget()
+        widget = pg.PlotWidget()
 
         layout = QVBoxLayout()
 
-        layout.addWidget(self.graphXWidget)
+        layout.addWidget(widget)
 
-        self.xPlotGroupBox.setLayout(layout)
+        self.linearPositionPlotGroupBox.setLayout(layout)
 
-        self.sliderX = list(range(-self.buffer_size*self.interval,0,self.interval))  
-        self.sliderY = [randint(0,self.buffer_size) for _ in range(0,self.buffer_size*self.interval,self.interval)] 
+        self.posX = list(range(-self.buffer_size*self.interval,0,self.interval))  
+        self.posY = [randint(0,self.buffer_size) for _ in range(0,self.buffer_size*self.interval,self.interval)] 
 
         pen = pg.mkPen(color=(255, 0, 0),width=self.plot_width)
-        self.graphXWidget.setBackground('w')
+        widget.setBackground('w')
 
-        self.graphXWidget.setYRange(-750, 750, padding=0)
+        widget.setYRange(-750, 750, padding=0)
 
-        self.graphXWidget.setLabel('left', 'Millimeters', color='red', size=30)
-        self.graphXWidget.setLabel('bottom', 'Milliseconds', color='red', size=30)
+        widget.setLabel('left', 'Millimeters', color='red', size=30)
+        widget.setLabel('bottom', 'Milliseconds', color='red', size=30)
 
-        self.linearPositionPlotUpdate = self.graphXWidget.plot(self.sliderX, self.sliderY,pen=pen)
+        self.linearPositionPlotUpdate = widget.plot(self.posX, self.posY,pen=pen)
 
 
 #***************************************************************************************
@@ -592,26 +599,62 @@ class WidgetGallery(QDialog):
 
         self.angularPositionPlotGroupBox.setAlignment(Qt.AlignCenter)
 
-        self.graphAngleWidget = pg.PlotWidget()
 
+        widget = pg.PlotWidget()
         layout = QVBoxLayout()
 
-        layout.addWidget(self.graphAngleWidget)
+        layout.addWidget(widget)
 
         self.angularPositionPlotGroupBox.setLayout(layout)
 
-        self.angleX = list(range(-self.buffer_size*self.interval,0,self.interval))  
-        self.angleY = [randint(-180,180) for _ in range(0,self.buffer_size*self.interval,self.interval)]  
+        self.anglePosX = list(range(-self.buffer_size*self.interval,0,self.interval))  
+        self.anglePosY = [randint(-180,180) for _ in range(0,self.buffer_size*self.interval,self.interval)]  
 
         pen = pg.mkPen(color=(255, 0, 0),width=self.plot_width)
-        self.graphAngleWidget.setBackground('w')
 
-        self.graphAngleWidget.setYRange(-180, 180, padding=0)
+        widget.setBackground('w')
 
-        self.graphAngleWidget.setLabel('left', 'Degrees', color='red', size=30)
-        self.graphAngleWidget.setLabel('bottom', 'Milliseconds', color='red', size=30)
+        widget.setYRange(-180, 180, padding=0)
 
-        self.angularPositionPlotUpdate = self.graphAngleWidget.plot(self.angleX, self.angleY,pen=pen)
+        widget.setLabel('left', 'Degrees', color='red', size=30)
+        widget.setLabel('bottom', 'Milliseconds', color='red', size=30)
+
+        self.angularPositionPlotUpdate = widget.plot(self.anglePosX, self.anglePosY,pen=pen)
+
+#***************************************************************************************
+
+    def __createAngularVelocityPlotGroupBox(self):
+
+        self.angularVelocityPlotGroupBox = QGroupBox("Angular Velocity")
+        self.angularVelocityPlotGroupBox.setAlignment(Qt.AlignCenter)
+
+        widget = pg.PlotWidget()
+
+        layout = QVBoxLayout()
+
+        layout.addWidget(widget)
+
+        self.angularVelocityPlotGroupBox.setLayout(layout)
+
+        self.angularVelocityX = list(range(-self.buffer_size*self.interval,0,self.interval))  
+        self.angularVelocityY = [randint(-180,180) for _ in range(0,self.buffer_size*self.interval,self.interval)]  
+
+        pen = pg.mkPen(color=(255, 0, 0),width=self.plot_width)
+
+        widget.setBackground('w')
+
+        widget.setYRange(-180, 180, padding=0)
+
+        widget.setLabel('left', 'Degrees/second', color='red', size=30)
+        widget.setLabel('bottom', 'Milliseconds', color='red', size=30)
+
+        self.angularVelocityPlotUpdate = widget.plot(self.angularVelocityX, self.angularVelocityY,pen=pen)
+
+#***************************************************************************************
+
+    def __createLinearVelocityPlotGroupBox(self):
+
+        self.angularVelocityPlotGroupBox = QGroupBox("Linear Velocity")
 
 #***************************************************************************************
 
