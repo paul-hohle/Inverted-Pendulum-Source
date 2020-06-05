@@ -57,7 +57,7 @@ import asyncio
 
 #********************************************************************************************************
 
-mode_messages = { 'Idle'                   : controllerMsgs.TX_MSG_SET_IDLE_MODE,
+modeMessages =  { 'Idle'                   : controllerMsgs.TX_MSG_SET_IDLE_MODE,
                   'Manual'                 : controllerMsgs.TX_MSG_SET_MANUAL_MODE,
                   'State Space Controller' : controllerMsgs.TX_MSG_SET_STATE_SPACE_MODE,
                   'PID Controller'         : controllerMsgs.TX_MSG_SET_PID_MODE,
@@ -70,6 +70,12 @@ mode_messages = { 'Idle'                   : controllerMsgs.TX_MSG_SET_IDLE_MODE
                   'Windup Test'            : controllerMsgs.TX_MSG_SET_WINDUP_MODE,
                   'Communications Test'    : controllerMsgs.TX_MSG_SET_COMM_TEST_MODE,
                 }
+
+disablePlotting = set ( [ controllerMsgs.TX_MSG_SET_COMM_TEST_MODE,
+                          controllerMsgs.TX_MSG_SET_IDLE_MODE,
+                          controllerMsgs.TX_MSG_SET_MANUAL_MODE,
+                        ]
+                      )
 
 #********************************************************************************************************
 
@@ -159,7 +165,7 @@ class WidgetGallery(QDialog):
 
     def update_plots(self):
 
-       if self.mode  == controllerMsgs.TX_MSG_SET_PID_MODE:
+       if self.mode not in disablePlotting: 
 
             self.angularPositionY = self.angularPositionY[1:] 
             self.angularPositionY.append( randint(0,self.buffer_size))  
@@ -434,7 +440,7 @@ class WidgetGallery(QDialog):
 
         if radio.isChecked():
 
-           msg = mode_messages.get(radio.text())
+           msg = modeMessages.get(radio.text())
 
            if msg == None:
               print("Undefined mode message string: " + radio.text())
