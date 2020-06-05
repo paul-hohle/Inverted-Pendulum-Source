@@ -122,7 +122,6 @@ class WidgetGallery(QDialog):
         mainLayout = QGridLayout()
 
         mainLayout.addLayout(topLayout, 0, 0, 1, 3)
-#       mainLayout.addLayout(topLayout, 0, 0, 2, 3)
 
         mainLayout.addWidget(self.modeGroupBox,                1, 0)
         mainLayout.addWidget(self.manualGroupBox,              1, 1)
@@ -132,9 +131,8 @@ class WidgetGallery(QDialog):
         mainLayout.addWidget(self.incomingGroupBox,            2, 0)
         mainLayout.addWidget(self.outgoingGroupBox,            2, 1)
         mainLayout.addWidget(self.angleSensorGroupBox,         2, 2)
-        mainLayout.addWidget(self.angularPositionPlotGroupBox, 2, 3)
-
-#        mainLayout.addWidget(self.angularVelocityPlotGroupBox, 3, 3)
+        mainLayout.addWidget(self.linearVelocityPlotGroupBox,  2, 3)
+        mainLayout.addWidget(self.linearVelocityPlotGroupBox,  2, 3)
 
         mainLayout.setRowStretch(1, 1)
         mainLayout.setRowStretch(2, 1)
@@ -160,14 +158,22 @@ class WidgetGallery(QDialog):
 
     def update_plots(self):
 
-        self.anglePosY = self.anglePosY[1:] 
-        self.anglePosY.append( randint(0,self.buffer_size))  
+        self.angularPositionY = self.angularPositionY[1:] 
+        self.angularPositionY.append( randint(0,self.buffer_size))  
 
-        self.posY = self.posY[1:] 
-        self.posY.append( randint(0,self.buffer_size))  
+        self.linearPositionY = self.linearPositionY[1:] 
+        self.linearPositionY.append( randint(0,self.buffer_size))  
 
-        self.angularPositionPlotUpdate.setData(self.anglePosX, self.anglePosY) 
-        self.linearPositionPlotUpdate.setData(self.posX,self.posY)
+        self.linearVelocityY = self.linearVelocityY[1:]   
+        self.linearVelocityY.append(randint(0,self.buffer_size))  
+
+        self.angularVelocityY = self.angularVelocityY[1:]   
+        self.angularVelocityY.append(randint(0,self.buffer_size))  
+
+        self.angularPositionPlotUpdate.setData(self.angularPositionX, self.angularPositionY) 
+        self.linearPositionPlotUpdate.setData(self.linearPositionX,self.linearPositionY)
+        self.linearVelocityPlotUpdate.setData (self.linearVelocityX, self.linearVelocityY)
+        self.angularVelocityPlotUpdate.setData (self.angularVelocityX, self.angularVelocityY)
 
 #********************************************************************************************************
 
@@ -577,8 +583,8 @@ class WidgetGallery(QDialog):
 
         self.linearPositionPlotGroupBox.setLayout(layout)
 
-        self.posX = list(range(-self.buffer_size*self.interval,0,self.interval))  
-        self.posY = [randint(0,self.buffer_size) for _ in range(0,self.buffer_size*self.interval,self.interval)] 
+        self.linearPositionX = list(range(-self.buffer_size*self.interval,0,self.interval))  
+        self.linearPositionY = [randint(0,self.buffer_size) for _ in range(0,self.buffer_size*self.interval,self.interval)] 
 
         pen = pg.mkPen(color=(255, 0, 0),width=self.plot_width)
         widget.setBackground('w')
@@ -588,7 +594,7 @@ class WidgetGallery(QDialog):
         widget.setLabel('left', 'Millimeters', color='red', size=30)
         widget.setLabel('bottom', 'Milliseconds', color='red', size=30)
 
-        self.linearPositionPlotUpdate = widget.plot(self.posX, self.posY,pen=pen)
+        self.linearPositionPlotUpdate = widget.plot(self.linearPositionX, self.linearPositionY,pen=pen)
 
 
 #***************************************************************************************
@@ -607,8 +613,8 @@ class WidgetGallery(QDialog):
 
         self.angularPositionPlotGroupBox.setLayout(layout)
 
-        self.anglePosX = list(range(-self.buffer_size*self.interval,0,self.interval))  
-        self.anglePosY = [randint(-180,180) for _ in range(0,self.buffer_size*self.interval,self.interval)]  
+        self.angularPositionX = list(range(-self.buffer_size*self.interval,0,self.interval))  
+        self.angularPositionY = [randint(-180,180) for _ in range(0,self.buffer_size*self.interval,self.interval)]  
 
         pen = pg.mkPen(color=(255, 0, 0),width=self.plot_width)
 
@@ -619,7 +625,7 @@ class WidgetGallery(QDialog):
         widget.setLabel('left', 'Degrees', color='red', size=30)
         widget.setLabel('bottom', 'Milliseconds', color='red', size=30)
 
-        self.angularPositionPlotUpdate = widget.plot(self.anglePosX, self.anglePosY,pen=pen)
+        self.angularPositionPlotUpdate = widget.plot(self.angularPositionX, self.angularPositionY,pen=pen)
 
 #***************************************************************************************
 
@@ -645,7 +651,7 @@ class WidgetGallery(QDialog):
 
         widget.setYRange(-180, 180, padding=0)
 
-        widget.setLabel('left', 'Degrees/second', color='red', size=30)
+        widget.setLabel('left', 'Degrees/Second', color='red', size=30)
         widget.setLabel('bottom', 'Milliseconds', color='red', size=30)
 
         self.angularVelocityPlotUpdate = widget.plot(self.angularVelocityX, self.angularVelocityY,pen=pen)
@@ -654,7 +660,28 @@ class WidgetGallery(QDialog):
 
     def __createLinearVelocityPlotGroupBox(self):
 
-        self.angularVelocityPlotGroupBox = QGroupBox("Linear Velocity")
+        self.linearVelocityPlotGroupBox = QGroupBox("Linear Velocity")
+        self.linearVelocityPlotGroupBox.setAlignment(Qt.AlignCenter)
+
+        widget = pg.PlotWidget()
+
+        layout = QVBoxLayout()
+
+        layout.addWidget(widget)
+
+        self.linearVelocityPlotGroupBox.setLayout(layout)
+
+        self.linearVelocityX = list(range(-self.buffer_size*self.interval,0,self.interval))  
+        self.linearVelocityY = [randint(-180,180) for _ in range(0,self.buffer_size*self.interval,self.interval)]  
+
+        pen = pg.mkPen(color=(255, 0, 0),width=self.plot_width)
+
+        widget.setBackground('w')
+
+        widget.setLabel('left', 'Millimeters/Second', color='red', size=30)
+        widget.setLabel('bottom', 'Milliseconds', color='red', size=30)
+
+        self.linearVelocityPlotUpdate = widget.plot(self.linearVelocityX, self.linearVelocityY,pen=pen)
 
 #***************************************************************************************
 
