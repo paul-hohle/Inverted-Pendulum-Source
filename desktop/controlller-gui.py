@@ -121,18 +121,19 @@ class WidgetGallery(QDialog):
 
         main = QGridLayout()
 
-        main.addLayout(top, 0, 0, 1, 3)
+        main.addLayout(top, 0, 0, 1, 4)
 
         main.addWidget(self.modeGroupBox,                1, 0)
         main.addWidget(self.manualGroupBox,              1, 1)
         main.addWidget(self.PIDGroupBox,                 1, 2)
         main.addWidget(self.linearPositionPlotGroupBox,  1, 3)
+        main.addWidget(self.angularPositionPlotGroupBox, 1, 4)
 
         main.addWidget(self.incomingGroupBox,            2, 0)
         main.addWidget(self.outgoingGroupBox,            2, 1)
         main.addWidget(self.angleSensorGroupBox,         2, 2)
         main.addWidget(self.linearVelocityPlotGroupBox,  2, 3)
-        main.addWidget(self.linearVelocityPlotGroupBox,  2, 3)
+        main.addWidget(self.angularVelocityPlotGroupBox, 2, 4)
 
         main.setRowStretch(1, 1)
         main.setRowStretch(2, 1)
@@ -665,6 +666,16 @@ class WidgetGallery(QDialog):
         widget.setLabel('bottom', 'Milliseconds', color='red', size=30)
 
         self.angularVelocityPlotUpdate = widget.plot(self.angularVelocityX, self.angularVelocityY,pen=pen)
+
+#***************************************************************************************
+
+    def __createAngularPlotsGroupBox(self):
+        stub = True
+
+#***************************************************************************************
+
+    def __createLinearPlotsGroupBox(self):
+        stub = True
 
 #***************************************************************************************
 
