@@ -71,11 +71,11 @@ modeMessages =  { 'Idle'                   : controllerMsgs.TX_MSG_SET_IDLE_MODE
                   'Communications Test'    : controllerMsgs.TX_MSG_SET_COMM_TEST_MODE,
                 }
 
-disablePlotting = frozenset ( [ controllerMsgs.TX_MSG_SET_COMM_TEST_MODE,
-                                controllerMsgs.TX_MSG_SET_IDLE_MODE,
-                                controllerMsgs.TX_MSG_SET_MANUAL_MODE,
-                              ]
-                            )
+plottingInactiveModes = frozenset ( [ controllerMsgs.TX_MSG_SET_COMM_TEST_MODE,
+                                      controllerMsgs.TX_MSG_SET_IDLE_MODE,
+                                      controllerMsgs.TX_MSG_SET_MANUAL_MODE,
+                                    ]
+                                  )
 
 #********************************************************************************************************
 
@@ -165,7 +165,7 @@ class WidgetGallery(QDialog):
 
     def update_plots(self):
 
-       if self.mode not in disablePlotting: 
+       if self.mode not in plottingInactiveModes: 
 
             self.angularPositionY = self.angularPositionY[1:] 
             self.angularPositionY.append( randint(0,self.buffer_size))  
