@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.5
+#!/usr/bin/python3.5
 
 
 #********************************************************************************************************
@@ -69,6 +69,7 @@ modeMessages =  { 'Idle'                   : controllerMsgs.TX_MSG_SET_IDLE_MODE
                   'Rail Center Test'       : controllerMsgs.TX_MSG_SET_RAIL_CENTER_MODE,
                   'Windup Test'            : controllerMsgs.TX_MSG_SET_WINDUP_MODE,
                   'Communications Test'    : controllerMsgs.TX_MSG_SET_COMM_TEST_MODE,
+                  'Stress Test'            : controllerMsgs.TX_MSG_SET_STRESS_TEST_MODE,
                 }
 
 plottingInactiveModes = frozenset ( [ controllerMsgs.TX_MSG_SET_COMM_TEST_MODE,
@@ -379,6 +380,7 @@ class WidgetGallery(QDialog):
         centerRadioButton          = QRadioButton("Rail Center Test")
         windupRadioButton          = QRadioButton("Windup Test")
         commTestRadioButton        = QRadioButton("Communications Test")
+        stressTestRadioButton      = QRadioButton("Stress Test")
 
         actor = lambda:self.modeRadioButtonHandler(idleRadioButton)
         idleRadioButton.toggled.connect(actor)
@@ -413,6 +415,9 @@ class WidgetGallery(QDialog):
         actor = lambda:self.modeRadioButtonHandler(commTestRadioButton)
         commTestRadioButton.toggled.connect(actor)
 
+        actor = lambda:self.modeRadioButtonHandler(stressTestRadioButton)
+        stressTestRadioButton.toggled.connect(actor)
+
         idleRadioButton.setChecked(True)
 
         layout = QVBoxLayout()
@@ -428,6 +433,7 @@ class WidgetGallery(QDialog):
         layout.addWidget(centerRadioButton)
         layout.addWidget(windupRadioButton)
         layout.addWidget(commTestRadioButton)
+        layout.addWidget(stressTestRadioButton)
 
         layout.addStretch(1)
 
