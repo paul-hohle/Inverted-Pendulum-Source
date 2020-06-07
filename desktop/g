@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Run GUI test driver
+./controlller-gui.py
