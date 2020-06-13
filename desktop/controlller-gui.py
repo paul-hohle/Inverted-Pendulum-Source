@@ -1,4 +1,4 @@
-#!/usr/bin/python3.5
+#!/usr/bin/python3.6
 
 
 #********************************************************************************************************
@@ -58,8 +58,8 @@ import asyncio
 #********************************************************************************************************
 
 modeMessages =  { 'Idle'                   : controllerMsgs.TX_MSG_SET_IDLE_MODE,
-                  'Manual'                 : controllerMsgs.TX_MSG_SET_MANUAL_MODE,
-                  'State Space Controller' : controllerMsgs.TX_MSG_SET_STATE_SPACE_MODE,
+                  'Manual Controller'      : controllerMsgs.TX_MSG_SET_MANUAL_MODE,
+                  'LQR Controller'         : controllerMsgs.TX_MSG_SET_LQR_MODE,
                   'PID Controller'         : controllerMsgs.TX_MSG_SET_PID_MODE,
                   'Fuzzy Logic Controller' : controllerMsgs.TX_MSG_SET_FUZZY_LOGIC_MODE,
                   'AI Controller'          : controllerMsgs.TX_MSG_SET_AI_MODE,
@@ -372,7 +372,7 @@ class WidgetGallery(QDialog):
         idleRadioButton            = QRadioButton("Idle")
         manualRadioButton          = QRadioButton("Manual")
         pidRadioButton             = QRadioButton("PID Controller")
-        stateSpaceRadioButton      = QRadioButton("State Space Controller")
+        lqrRadioButton             = QRadioButton("LQR Controller")
         aiRadioButton              = QRadioButton("AI Controller")
         periodRadioButton          = QRadioButton("Pendulum Period Test")
         pendulumLengthRadioButton  = QRadioButton("Pendulum Length Test")
@@ -391,8 +391,8 @@ class WidgetGallery(QDialog):
         actor = lambda:self.modeRadioButtonHandler(pidRadioButton)
         pidRadioButton.toggled.connect(actor)
 
-        actor = lambda:self.modeRadioButtonHandler(stateSpaceRadioButton)
-        stateSpaceRadioButton.toggled.connect(actor)
+        actor = lambda:self.modeRadioButtonHandler(lqrRadioButton)
+        lqrRadioButton.toggled.connect(actor)
 
         actor = lambda:self.modeRadioButtonHandler(aiRadioButton)
         aiRadioButton.toggled.connect(actor)
@@ -425,7 +425,7 @@ class WidgetGallery(QDialog):
         layout.addWidget(idleRadioButton)
         layout.addWidget(manualRadioButton)
         layout.addWidget(pidRadioButton)
-        layout.addWidget(stateSpaceRadioButton)
+        layout.addWidget(lqrRadioButton)
         layout.addWidget(aiRadioButton)
         layout.addWidget(periodRadioButton)
         layout.addWidget(pendulumLengthRadioButton)
