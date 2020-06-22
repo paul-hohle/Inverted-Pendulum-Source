@@ -168,23 +168,39 @@ class WidgetGallery(QDialog):
 
        if self.mode not in plottingInactiveModes: 
 
+            datum                 = randint(0,self.buffer_size)  
             self.angularPositionY = self.angularPositionY[1:] 
-            self.angularPositionY.append( randint(0,self.buffer_size))  
+            self.angularPositionY.append(datum)  
 
+            datum                = randint(0,self.buffer_size)  
             self.linearPositionY = self.linearPositionY[1:] 
-            self.linearPositionY.append( randint(0,self.buffer_size))  
+            self.linearPositionY.append(datum)  
 
+            datum                = randint(0,self.buffer_size)
             self.linearVelocityY = self.linearVelocityY[1:]   
-            self.linearVelocityY.append(randint(0,self.buffer_size))  
+            self.linearVelocityY.append(datum)  
 
+            datum                = randint(0,self.buffer_size)
             self.angularVelocityY = self.angularVelocityY[1:]   
-            self.angularVelocityY.append(randint(0,self.buffer_size))  
+            self.angularVelocityY.append(datum)  
 
-            self.angularPositionPlotUpdate.setData(self.angularPositionX, self.angularPositionY) 
-            self.linearPositionPlotUpdate.setData(self.linearPositionX,self.linearPositionY)
 
-            self.linearVelocityPlotUpdate.setData (self.linearVelocityX, self.linearVelocityY)
-            self.angularVelocityPlotUpdate.setData (self.angularVelocityX, self.angularVelocityY)
+            x = self.angularPositionX
+            y = self.angularPositionY
+            self.angularPositionPlotUpdate.setData(x,y) 
+
+            x = self.linearPositionX
+            y = self.linearPositionY
+            self.linearPositionPlotUpdate.setData(x,y)
+
+            x = self.linearVelocityX
+            y = self.linearVelocityY
+            self.linearVelocityPlotUpdate.setData(x,y)
+
+            x = self.angularVelocityX
+            y = self.angularVelocityY
+            self.angularVelocityPlotUpdate.setData(x,y)
+
 
 #********************************************************************************************************
 
