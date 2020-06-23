@@ -180,7 +180,7 @@ class WidgetGallery(QDialog):
             self.linearVelocityY = self.linearVelocityY[1:]   
             self.linearVelocityY.append(datum)  
 
-            datum                = randint(0,self.buffer_size)
+            datum                 = randint(0,self.buffer_size)
             self.angularVelocityY = self.angularVelocityY[1:]   
             self.angularVelocityY.append(datum)  
 
